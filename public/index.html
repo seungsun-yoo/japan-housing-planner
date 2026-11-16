@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>일본 주택 설계</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="sim.js"></script>
+<style>
+:root{--bg:#f6f5f2;--panel:#fff;--ink:#1d1d1b;--mute:#6b6a65;--line:#e3e1db;--accent:#1f5f8b;--good:#2f7d4f;--warn:#b7791f;--bad:#b23b3b;--soft:#eef3f7}
+@media (prefers-color-scheme:dark){:root{--bg:#141513;--panel:#1d1e1c;--ink:#ecebe6;--mute:#9b9a94;--line:#33342f;--accent:#6aa9d6;--good:#5fbf86;--warn:#e0a84a;--bad:#e06b6b;--soft:#1f2a33}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 -apple-system,"Hiragino Sans","Apple SD Gothic Neo",sans-serif}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:10px 20px;border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:1000}
+header h1{font-size:16px;margin:0 12px 0 0}
+nav{display:flex;flex-wrap:wrap}
+nav button{background:none;border:0;padding:8px 12px;border-radius:6px;color:var(--mute);font:inherit;cursor:pointer}
+nav button.on{background:var(--soft);color:var(--accent);font-weight:600}
+.status{margin-left:auto;font-size:12px;color:var(--mute);display:flex;gap:8px;align-items:center}
+.btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:6px;padding:6px 10px;font:inherit;cursor:pointer}
+.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn.sm{padding:3px 8px;font-size:12px}
+main{padding:16px 20px;max-width:1500px;margin:0 auto}
+.tab{display:none}.tab.on{display:block}
+.grid{display:grid;grid-template-columns:370px 1fr;gap:16px;align-items:start}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:14px}
+.card h2{font-size:13px;margin:0 0 10px;color:var(--mute);font-weight:600}
+.form label{display:grid;grid-template-columns:max-content 1fr 130px;align-items:center;gap:8px;margin:6px 0;font-size:13px}
+.form label small{color:var(--mute);font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.form label>input,.form label>select,.form label>button{grid-column:3}
+.form input,.form select{width:100%;padding:5px 7px;border:1px solid var(--line);border-radius:5px;background:var(--bg);color:var(--ink);font:inherit;text-align:right}
+.form input::placeholder{color:var(--mute);opacity:.75}
+.form select{text-align:left}
+.big label{font-size:14px}.big input{font-size:15px;padding:7px 9px}
+.seg{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:7px;overflow:hidden;margin:4px 0 8px}
+.seg.two{grid-template-columns:1fr 1fr}
+.seg button{border:0;border-right:1px solid var(--line);background:var(--panel);padding:8px 4px;font:inherit;font-size:13px;cursor:pointer;color:var(--mute)}
+.seg button:last-child{border-right:0}
+.seg button.on{background:var(--accent);color:#fff;font-weight:600}
+details.detail{background:var(--panel);border:1px solid var(--line);border-radius:10px;margin-bottom:14px}
+details.detail>summary{padding:12px 16px;cursor:pointer;font-weight:600;color:var(--accent);list-style:none}
+details.detail>summary::before{content:'▸ ';}details.detail[open]>summary::before{content:'▾ '}
+details.detail .sub{padding:4px 16px 12px;border-top:1px solid var(--line)}
+details.detail h3{font-size:12px;color:var(--mute);margin:12px 0 4px}
+.econ{display:grid;grid-template-columns:1fr auto;gap:2px 10px;font-size:13px}.econ b{text-align:right;font-variant-numeric:tabular-nums}
+.econ span.s{grid-column:1/3;color:var(--mute);font-size:11px;margin:-2px 0 4px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.kpi .l{font-size:12px;color:var(--mute)}.kpi .v{font-size:20px;font-weight:650;font-variant-numeric:tabular-nums}.kpi .s{font-size:11px;color:var(--mute)}
+.good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+.alerts div{padding:6px 10px;border-radius:6px;margin:4px 0;font-size:13px;background:var(--soft)}
+.plan{border-left:4px solid var(--accent)}.plan .verdict{font-size:18px;font-weight:700;margin-bottom:6px}
+.plan ul{margin:6px 0 0;padding-left:18px}.plan li{margin:3px 0}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:1100px){.charts{grid-template-columns:1fr}}
+.chartbox{position:relative;height:260px}
+table{width:100%;border-collapse:collapse;font-size:12px;font-variant-numeric:tabular-nums}
+th,td{padding:5px 6px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}th{color:var(--mute);font-weight:600;position:sticky;top:0;background:var(--panel)}
+td.l,th.l{text-align:left}
+.tablewrap{max-height:420px;overflow:auto}
+#map{height:600px;border-radius:10px}
+.news li{list-style:none;padding:8px 0;border-bottom:1px solid var(--line)}.news ul{padding:0;margin:0}
+.news a{color:var(--ink);text-decoration:none}.news a:hover{color:var(--accent)}
+.tag{display:inline-block;font-size:11px;padding:1px 6px;border-radius:10px;background:var(--soft);color:var(--accent);margin-right:4px}
+.tag.new{background:var(--accent);color:#fff}
+.chips button{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:14px;padding:3px 10px;margin:2px;font:inherit;font-size:12px;cursor:pointer}
+.chips button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.muted{color:var(--mute);font-size:12px}
+.hide{display:none!important}
+.static .server-only{display:none!important}
+body:not(.static) .static-only{display:none!important}
+.maptools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px}
+</style>
+</head>
+<body>
+<header>
+  <h1>🏠 일본 주택 미래설계</h1>
+  <nav>
+    <button data-tab="home" class="on">자가 설계</button>
+    <button data-tab="invest">투자 시뮬레이션</button>
+    <button data-tab="map">지도·지가</button>
+    <button data-tab="refi">대출·갈아타기</button>
+    <button data-tab="rates">금리 모니터</button>
+    <button data-tab="news">뉴스 <span id="newsBadge" class="tag new hide"></span></button>
+  </nav>
+  <div class="status"><span id="updStatus">불러오는 중…</span><button class="btn server-only" id="refreshBtn">지금 갱신</button></div>
+</header>
+<main>
+<!-- ================= 자가 설계 ================= -->
+<section class="tab on" id="tab-home">
+<div class="grid">
+<div class="form" id="homeForm">
+  <div class="card big"><h2>기본 정보 (万円)</h2>
+    <label>나이<input id="age" type="number" value="35"></label>
+    <label>연봉 (세전)<input id="income" type="number" value="700"></label>
+    <label>현재 저축<input id="cash" type="number" value="1200"></label>
+  </div>
+  <div class="card big"><h2>물건</h2>
+    <div class="seg" id="ptypeSeg"><button data-v="new_m" class="on">신축 맨션</button><button data-v="used_m">중고 맨션</button><button data-v="new_h">신축 주택</button><button data-v="used_h">중고 주택</button></div>
+    <label>가격 (万円)<input id="price" type="number" value="6500"></label>
+    <label>지역 <small id="regionName">-</small><button class="btn" type="button" data-goto="map">지도에서 선택</button></label>
+  </div>
+  <div class="card"><h2>경제 상황 · 자동 반영</h2><div class="econ" id="econBox">불러오는 중…</div></div>
+
+  <details class="detail" id="homeDetail"><summary>상세 입력 (비워두면 자동값)</summary><div class="sub">
+    <h3>가계</h3>
+    <label>배우자 연봉<input id="spouseIncome" type="number" data-auto></label>
+    <label>생활비 <small>월, 주거비 제외</small><input id="living" type="number" data-auto></label>
+    <label>은퇴 나이<input id="retireAge" type="number" data-auto></label>
+    <label>은퇴 후 수입 <small>현역 대비 %</small><input id="pension" type="number" data-auto></label>
+    <h3>물건</h3>
+    <label>築년수<input id="bAge" type="number" data-auto></label>
+    <label>토지 비율 %<input id="landRatio" type="number" data-auto></label>
+    <label>제비용 % <small>중개·등기 등</small><input id="costsPct" type="number" step="0.5" data-auto></label>
+    <label>管理費 <small>万/월</small><input id="mgmt" type="number" step="0.1" data-auto></label>
+    <label>修繕積立金 <small>万/월</small><input id="repair" type="number" step="0.1" data-auto></label>
+    <label>수선적립금 인상률 %<input id="repairGrowth" type="number" step="0.5" data-auto></label>
+    <label>고정자산세 등 <small>万/년</small><input id="propTax" type="number" data-auto></label>
+    <label>수선·유지비 <small>万/년</small><input id="upkeep" type="number" data-auto></label>
+    <h3>대출</h3>
+    <label>頭金<input id="down" type="number" data-auto></label>
+    <label>금리 유형<select id="loanType"><option value="variable">변동금리</option><option value="fixed10">고정 10년</option><option value="flat35">フラット35</option></select></label>
+    <label>은행<select id="bank"></select></label>
+    <label>적용 금리 % <small>직접 입력 시 우선</small><input id="rate" type="number" step="0.001" data-auto></label>
+    <label>변동금리 기준 % <small>고정기간 후</small><input id="variableBase" type="number" step="0.001" data-auto></label>
+    <label>기간 (년)<input id="term" type="number" data-auto></label>
+    <label>금리 시나리오<select id="rateScenario"><option value="slow">완만한 상승 (+0.25%/2년, 최대+1.5)</option><option value="flat">현상 유지</option><option value="fast">급상승 (+0.5%/년, 최대+3)</option><option value="custom">직접 입력</option></select></label>
+    <label class="custom">상승폭 %/년<input id="riseStep" type="number" step="0.05" value="0.2"></label>
+    <label class="custom">상승 상한 %<input id="riseCap" type="number" step="0.1" value="2"></label>
+    <h3>경제 상황 (직접 입력 시 자동값 대신 사용)</h3>
+    <label>물가상승률 %<input id="inflation" type="number" step="0.1" data-auto></label>
+    <label>임금상승률 %<input id="wageGrowth" type="number" step="0.1" data-auto></label>
+    <label>여유자금 운용수익률 %<input id="investReturn" type="number" step="0.1" data-auto></label>
+    <h3>지가 전망</h3>
+    <label>기준 기간 <small>연평균 상승률 산출</small><select id="landBasis"><option value="1">1년 대비</option><option value="3">3년 대비</option><option value="5" selected>5년 대비</option><option value="10">10년 대비</option><option value="20">20년 대비</option></select></label>
+    <label>지가 상승률 %/년 <small>현재 정보 직접 입력</small><input id="landGrowth" type="number" step="0.1" data-auto></label>
+    <label>시나리오<select id="landScenario"><option value="base">기본 (점차 둔화)</option><option value="bull">낙관 (상승 지속)</option><option value="bear">비관 (인구감소·하락)</option></select></label>
+    <h3>비교·세제</h3>
+    <label>비교용 월세 <small>万/월</small><input id="currentRent" type="number" step="0.5" data-auto></label>
+    <label>월세 상승률 %<input id="rentGrowth" type="number" step="0.1" data-auto></label>
+    <label>시뮬레이션 기간 (년)<input id="horizon" type="number" data-auto></label>
+    <label>省エネ 등급 <small>住宅ローン控除</small><select id="energy"><option value="shoene">省エネ기준 적합</option><option value="zeh">ZEH 수준</option><option value="nintei">長期優良・低炭素</option><option value="other">기타</option></select></label>
+    <label>子育て・若者 세대<select id="kosodate"><option value="0">아니오</option><option value="1">예</option></select></label>
+    <button class="btn" id="resetBtn" type="button">상세 입력 모두 비우기</button>
+  </div></details>
+</div>
+
+<div>
+  <div class="card plan" id="plan"></div>
+  <div class="kpis" id="kpis"></div>
+  <div class="card alerts" id="alerts"></div>
+  <div class="charts">
+    <div class="card"><h2>물건 가치 vs 대출 잔액</h2><div class="chartbox"><canvas id="c1"></canvas></div></div>
+    <div class="card"><h2>순자산 비교: 구입 vs 계속 임대</h2><div class="chartbox"><canvas id="c2"></canvas></div></div>
+    <div class="card"><h2>금리 경로와 연간 상환액</h2><div class="chartbox"><canvas id="c3"></canvas></div></div>
+    <div class="card"><h2>연간 주거비 구성</h2><div class="chartbox"><canvas id="c4"></canvas></div></div>
+  </div>
+  <div class="card"><h2>연도별 상세 (万円)</h2><div class="tablewrap"><table id="tbl"></table></div></div>
+  <p class="muted">※ 개산 시뮬레이션입니다. 세금(2025년 세제 근사), 심사 기준, 住宅ローン控除 한도는 개정이나 금융기관에 따라 다르므로 계약 전 금융기관·세무사에게 확인하세요. 변동금리의 5년 룰·125% 룰은 반영하지 않았습니다(보수적 계산).</p>
+</div>
+</div>
+</section>
+
+<!-- ================= 투자 ================= -->
+<section class="tab" id="tab-invest">
+<div class="grid">
+<div class="form" id="investForm">
+  <div class="card big"><h2>투자 물건</h2>
+    <div class="seg" id="iptypeSeg"><button data-v="new_m">신축 맨션</button><button data-v="used_m" class="on">중고 맨션</button><button data-v="new_h">신축 주택</button><button data-v="used_h">중고 주택</button></div>
+    <label>가격 (万円)<input id="i_price" type="number" value="3500"></label>
+    <label>월세 수입 <small>万/월</small><input id="i_monthlyRent" type="number" step="0.5" value="13"></label>
+    <label>지역 <small id="iregionName">-</small><button class="btn" type="button" data-goto="map">지도에서 선택</button></label>
+  </div>
+  <div class="card muted">가계 정보(나이·연봉·저축)는 「자가 설계」 탭 입력값을 함께 씁니다. 투자용 대출은 フラット35를 이용할 수 없습니다.</div>
+  <details class="detail"><summary>상세 입력 (비워두면 자동값)</summary><div class="sub">
+    <label>頭金<input id="i_down" type="number" data-auto></label>
+    <label>築년수<input id="i_bAge" type="number" data-auto></label>
+    <label>토지 비율 %<input id="i_landRatio" type="number" data-auto></label>
+    <label>제비용 %<input id="i_costsPct" type="number" step="0.5" data-auto></label>
+    <label>管理費 <small>万/월</small><input id="i_mgmt" type="number" step="0.1" data-auto></label>
+    <label>修繕積立金 <small>万/월</small><input id="i_repair" type="number" step="0.1" data-auto></label>
+    <label>고정자산세 등 <small>万/년</small><input id="i_propTax" type="number" data-auto></label>
+    <label>수선·유지비 <small>万/년</small><input id="i_upkeep" type="number" data-auto></label>
+    <label>공실률 %<input id="i_vacancy" type="number" data-auto></label>
+    <label>임대관리 위탁료 %<input id="i_pmFee" type="number" data-auto></label>
+    <label>임대료 하락률 %/년<input id="i_rentDecline" type="number" step="0.1" data-auto></label>
+    <label>대출 금리 % <small>투자용</small><input id="i_rate" type="number" step="0.01" data-auto></label>
+    <label>대출 기간 (년)<input id="i_term" type="number" data-auto></label>
+    <label>한계세율 % <small>소득세+주민세</small><input id="i_marginalTax" type="number" data-auto></label>
+    <label>보유 기간 (년)<input id="i_holdYears" type="number" data-auto></label>
+    <label>매각 비용 %<input id="i_saleCost" type="number" step="0.5" data-auto></label>
+    <label>지가 상승률 %/년<input id="i_landGrowth" type="number" step="0.1" data-auto></label>
+  </div></details>
+</div>
+<div>
+  <div class="kpis" id="ikpis"></div>
+  <div class="card alerts" id="ialerts"></div>
+  <div class="charts">
+    <div class="card"><h2>세후 현금흐름 (연간·누적)</h2><div class="chartbox"><canvas id="ic1"></canvas></div></div>
+    <div class="card"><h2>물건 가치 vs 대출 잔액</h2><div class="chartbox"><canvas id="ic2"></canvas></div></div>
+  </div>
+  <div class="card"><h2>연도별 상세 (万円)</h2><div class="tablewrap"><table id="itbl"></table></div></div>
+</div>
+</div>
+</section>
+
+<!-- ================= 지도 ================= -->
+<section class="tab" id="tab-map">
+<div class="grid" style="grid-template-columns:1fr 400px">
+  <div class="card" style="padding:10px">
+    <div class="maptools">
+      <span class="muted">상승률 기준</span>
+      <div class="chips" id="periodChips"></div>
+      <span class="muted">표시</span>
+      <div class="chips" id="metricChips"></div>
+      <span class="muted" id="mapLoading"></span>
+    </div>
+    <div id="map"></div>
+    <div class="muted" style="margin-top:6px">출처: 국토교통성 국토수치정보 「地価公示」 (API 키 없이 자동 연결). 원은 시구정촌, 지점의 주택지 중앙값입니다. 지도를 움직이면 주변 도도부현 데이터를 자동으로 불러옵니다. 빈 곳을 클릭하면 가장 가까운 공시지가 지점을 보여줍니다.</div>
+  </div>
+  <div>
+    <div class="card"><h2>선택 지역</h2><div id="areaInfo" class="muted">원을 클릭하세요.</div>
+      <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap"><button class="btn primary" id="applyArea">자가 설계에 적용</button><button class="btn" id="applyAreaInv">투자에 적용</button></div></div>
+    <div class="card"><h2>지가 추이와 전망 (현재 = 100)</h2><div class="chartbox"><canvas id="cLand"></canvas></div><div class="muted" id="landNote"></div></div>
+    <div class="card"><h2>가까운 공시지가 지점</h2><div id="nearInfo" class="muted">지도 빈 곳을 클릭하세요.</div></div>
+  </div>
+</div>
+</section>
+
+<!-- ================= 대출·갈아타기 ================= -->
+<section class="tab" id="tab-refi">
+<div class="grid">
+<div class="form">
+  <div class="card big"><h2>현재 대출 정보</h2>
+    <label>은행명<input id="r_bank" type="text" value="현재 은행" style="text-align:left"></label>
+    <label>대출 잔액 (万円)<input id="r_bal" type="number" value="3000"></label>
+    <label>현재 금리 %<input id="r_rate" type="number" step="0.001" value="1.5"></label>
+    <label>남은 기간 (년)<input id="r_years" type="number" value="25"></label>
+  </div>
+  <details class="detail"><summary>상세 입력: 갈아타기 비용·후보 은행</summary><div class="sub">
+    <label>현재 금리 유형<select id="r_kind"><option value="variable">변동</option><option value="fixed">고정 (전기간·잔여기간)</option></select></label>
+    <label>사무수수료 % <small>대출액 대비</small><input id="r_feePct" type="number" step="0.1" value="2.2"></label>
+    <label>기타 비용 <small>등기·인지세 등 万</small><input id="r_other" type="number" value="40"></label>
+    <label>금리 시나리오 <small>변동 후보에 적용</small><select id="r_scen"><option value="flat">현상 유지</option><option value="slow">완만한 상승</option><option value="fast">급상승</option></select></label>
+    <h3>직접 입력 후보 (상담 중인 은행 등)</h3>
+    <label>은행명<input id="r_cname" type="text" placeholder="예: ○○銀行" style="text-align:left"></label>
+    <label>금리 %<input id="r_crate" type="number" step="0.001"></label>
+    <label>유형<select id="r_ckind"><option value="variable">변동</option><option value="fixed10">고정10년</option><option value="flat35">フラット35</option></select></label>
+  </div></details>
+  <div class="card muted">갈아타기 일반 기준: 금리차 약 1% 이상, 잔액 1,000만엔 이상, 남은 기간 10년 이상이면 메리트가 나기 쉽습니다. 변동→변동은 금리 상승 위험이 그대로 남고, 고정으로 바꾸면 월 상환액이 늘 수 있지만 금리 상승 위험을 없앨 수 있습니다.</div>
+</div>
+<div>
+  <div class="card plan" id="refiPlan"></div>
+  <div class="card"><h2>후보별 비교 (자동 수집 금리 + 직접 입력)</h2><div class="tablewrap"><table id="refiTbl"></table></div></div>
+  <div class="card"><h2>누적 순이익 (비용 차감 후)</h2><div class="chartbox"><canvas id="cRefi"></canvas></div></div>
+</div>
+</div>
+</section>
+
+<!-- ================= 금리 ================= -->
+<section class="tab" id="tab-rates">
+  <div class="card"><h2>최신 수집 금리</h2><table id="rateTbl"></table><p class="muted" id="rateNote"></p></div>
+  <div class="card static-only muted">이 공개 사이트는 GitHub Actions가 6시간마다 데이터를 자동 갱신합니다. 감시할 은행은 저장소의 <code>sources.json</code>에 추가하면 다음 갱신부터 반영됩니다.</div>
+  <div class="card form server-only"><h2>감시할 은행 추가 (갱신하려는 은행 정보)</h2>
+    <div class="muted" style="margin-bottom:6px">은행의 금리 안내 페이지 URL과 금리 바로 앞에 나오는 문구(예: 「変動金利」)를 입력하면, 그 문구 뒤에 처음 나오는 「x.xx%」를 자동으로 읽어 6시간마다 확인합니다.</div>
+    <label>이름<input id="s_name" type="text" placeholder="예: ○○銀行 변동" style="text-align:left"></label>
+    <label>URL<input id="s_url" type="text" placeholder="https://" style="text-align:left"></label>
+    <label>키워드<input id="s_kw" type="text" placeholder="変動金利" style="text-align:left"></label>
+    <label>몇 번째 % <small>0 = 첫 번째</small><input id="s_pick" type="number" value="0"></label>
+    <label>유형<select id="s_kind"><option value="variable">변동</option><option value="fixed10">고정10년</option><option value="flat35">フラット35</option></select></label>
+    <button class="btn primary" id="addSrc" type="button">추가하고 바로 확인</button> <span id="addMsg" class="muted"></span>
+  </div>
+  <div class="charts">
+    <div class="card"><h2>10년 국채 금리 장기 추이 (월말)</h2><div class="chartbox"><canvas id="cJgb"></canvas></div></div>
+    <div class="card"><h2>수집 이력 (자동 확인할 때마다 기록)</h2><div class="chartbox"><canvas id="cHist"></canvas></div></div>
+  </div>
+  <div class="card"><h2>시장 시그널</h2><div id="signals"></div></div>
+</section>
+
+<!-- ================= 뉴스 ================= -->
+<section class="tab" id="tab-news">
+  <div class="card"><h2>필터</h2><div class="chips" id="chips"></div><input id="q" placeholder="키워드 검색" class="btn" style="margin-top:8px;width:260px"></div>
+  <div class="card news"><ul id="newsList"></ul></div>
+</section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+{
+  "refreshHours": 6,
+  "rates": [
+    {
+      "id": "jgb10",
+      "name": "10년 국채 금리 (財務省)",
+      "kind": "jgb10",
+      "type": "mof_csv",
+      "url": "https://www.mof.go.jp/jgbs/reference/interest_rate/jgbcm.csv"
+    },
+    {
+      "id": "flat35",
+      "name": "フラット35 최빈금리 (21년 이상)",
+      "kind": "flat35",
+      "type": "keyword",
+      "url": "https://www.flat35.com/",
+      "keyword": "最頻金利",
+      "pick": 1,
+      "note": "【フラット35】S 등 인하 전 기준 (6년째 이후 금리)"
+    },
+    {
+      "id": "mufg_var",
+      "name": "三菱UFJ銀行 변동금리 (일률우대)",
+      "kind": "variable",
+      "type": "keyword",
+      "url": "https://www.bk.mufg.jp/kariru/jutaku/yuuguu/index.html",
+      "keyword": "変動金利",
+      "pick": 0
+    },
+    {
+      "id": "jibun_var",
+      "name": "auじぶん銀行 변동금리",
+      "kind": "variable",
+      "type": "keyword",
+      "url": "https://www.jibunbank.co.jp/products/homeloan/",
+      "keyword": "変動金利",
+      "pick": 0
+    },
+    {
+      "id": "mufg_fix10",
+      "name": "三菱UFJ銀行 고정10년",
+      "kind": "fixed10",
+      "type": "keyword",
+      "url": "https://www.bk.mufg.jp/kariru/jutaku/yuuguu/index.html",
+      "keyword": "固定10年",
+      "pick": 0
+    }
+  ],
+  "news": [
+    {
+      "name": "住宅ローン 金利",
+      "url": "https://news.google.com/rss/search?q=%E4%BD%8F%E5%AE%85%E3%83%AD%E3%83%BC%E3%83%B3+%E9%87%91%E5%88%A9&hl=ja&gl=JP&ceid=JP:ja"
+    },
+    {
+      "name": "日銀 利上げ",
+      "url": "https://news.google.com/rss/search?q=%E6%97%A5%E9%8A%80+%E5%88%A9%E4%B8%8A%E3%81%92&hl=ja&gl=JP&ceid=JP:ja"
+    },
+    {
+      "name": "地価",
+      "url": "https://news.google.com/rss/search?q=%E5%9C%B0%E4%BE%A1+%E4%B8%8A%E6%98%87%E7%8E%87&hl=ja&gl=JP&ceid=JP:ja"
+    },
+    {
+      "name": "マンション価格",
+      "url": "https://news.google.com/rss/search?q=%E6%96%B0%E7%AF%89%E3%83%9E%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%B3+%E4%BE%A1%E6%A0%BC&hl=ja&gl=JP&ceid=JP:ja"
+    },
+    {
+      "name": "中古マンション",
+      "url": "https://news.google.com/rss/search?q=%E4%B8%AD%E5%8F%A4%E3%83%9E%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%B3+%E7%9B%B8%E5%A0%B4&hl=ja&gl=JP&ceid=JP:ja"
+    },
+    {
+      "name": "NHK 経済",
+      "url": "https://www3.nhk.or.jp/rss/news/cat5.xml"
+    },
+    {
+      "name": "日本銀行 新着",
+      "url": "https://www.boj.or.jp/rss/whatsnew.xml"
+    }
+  ],
+  "econ": [
+    {
+      "id": "cpi",
+      "name": "소비자물가 총합 전년비 (総務省)",
+      "url": "https://www.stat.go.jp/data/cpi/sokuhou/tsuki/index-z.html",
+      "keyword": "総合指数",
+      "pick": 0
+    },
+    {
+      "id": "cpi_core",
+      "name": "소비자물가 신선식품 제외 (コアCPI)",
+      "url": "https://www.stat.go.jp/data/cpi/sokuhou/tsuki/index-z.html",
+      "keyword": "生鮮食品を除く総合指数",
+      "pick": 0
+    },
+    {
+      "id": "boj",
+      "name": "일본은행 정책금리 (無担保コール O/N)",
+      "url": "https://www.boj.or.jp/",
+      "keyword": "無担保コールレート（O/N物）：",
+      "pick": 0
+    }
+  ]
+}
