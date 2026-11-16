@@ -71,6 +71,7 @@ td.l,th.l{text-align:left}
 .hide{display:none!important}
 .static .server-only{display:none!important}
 body:not(.static) .static-only{display:none!important}
+.addr{display:flex;gap:6px;margin:8px 0 2px}.addr input{flex:1;text-align:left!important;min-width:0}
 .maptools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px}
 </style>
 </head>
@@ -101,6 +102,8 @@ body:not(.static) .static-only{display:none!important}
     <div class="seg" id="ptypeSeg"><button data-v="new_m" class="on">신축 맨션</button><button data-v="used_m">중고 맨션</button><button data-v="new_h">신축 주택</button><button data-v="used_h">중고 주택</button></div>
     <label>가격 (万円)<input id="price" type="number" value="6500"></label>
     <label>지역 <small id="regionName">-</small><button class="btn" type="button" data-goto="map">지도에서 선택</button></label>
+    <div class="addr"><input id="addrQ" type="text" placeholder="주소로 찾기 (例: 東京都江東区豊洲3丁目)" data-noauto><button class="btn primary" type="button" id="addrBtn">검색</button></div>
+    <div id="addrMsg" class="muted"></div>
   </div>
   <div class="card"><h2>경제 상황 · 자동 반영</h2><div class="econ" id="econBox">불러오는 중…</div></div>
 
@@ -172,6 +175,8 @@ body:not(.static) .static-only{display:none!important}
     <label>가격 (万円)<input id="i_price" type="number" value="3500"></label>
     <label>월세 수입 <small>万/월</small><input id="i_monthlyRent" type="number" step="0.5" value="13"></label>
     <label>지역 <small id="iregionName">-</small><button class="btn" type="button" data-goto="map">지도에서 선택</button></label>
+    <div class="addr"><input id="i_addrQ" type="text" placeholder="주소로 찾기 (例: 大阪市北区梅田1丁目)"><button class="btn primary" type="button" id="i_addrBtn">검색</button></div>
+    <div id="i_addrMsg" class="muted"></div>
   </div>
   <div class="card muted">가계 정보(나이·연봉·저축)는 「자가 설계」 탭 입력값을 함께 씁니다. 투자용 대출은 フラット35를 이용할 수 없습니다.</div>
   <details class="detail"><summary>상세 입력 (비워두면 자동값)</summary><div class="sub">
@@ -210,6 +215,8 @@ body:not(.static) .static-only{display:none!important}
 <section class="tab" id="tab-map">
 <div class="grid" style="grid-template-columns:1fr 400px">
   <div class="card" style="padding:10px">
+    <div class="addr" style="margin:0 0 8px"><input id="mapAddrQ" type="text" placeholder="주소로 지도 이동 (例: 横浜市西区みなとみらい2丁目)" style="padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit"><button class="btn primary" type="button" id="mapAddrBtn">주소 검색</button></div>
+    <div id="mapAddrMsg" class="muted"></div>
     <div class="maptools">
       <span class="muted">상승률 기준</span>
       <div class="chips" id="periodChips"></div>

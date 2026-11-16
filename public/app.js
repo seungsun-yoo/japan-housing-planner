@@ -175,7 +175,7 @@ const pvLoan = (monthly, rate, months) => { const r = rate / 100 / 12; return r 
 function calcHome() {
   const { s, E } = homeInputs();
   renderEcon(E, s);
-  $('regionName').textContent = region?.name || '미선택';
+  $('regionName').textContent = region ? (region.addr ? `${region.name} (${region.addr})` : region.name) : '미선택';
   const r = SIM.run(s), rows = r.rows, g = s.income + s.spouseIncome, cf = 1 + s.costsPct / 100;
   // ---- 계획 도출 ----
   const loanSafe = pvLoan((g * 0.25) / 12, s.rate + 1, s.term * 12);
@@ -245,7 +245,7 @@ function table(id, rows, cols) {
 function calcInvest() {
   const { s: h, E } = homeInputs();
   const pt = SIM.PT[iptype], price = val('i_price') || 0, basis = +$('landBasis').value, reg = iregion || region;
-  $('iregionName').textContent = reg?.name || '미선택';
+  $('iregionName').textContent = reg ? (reg.addr ? `${reg.name} (${reg.addr})` : reg.name) : '미선택';
   const costsPct = pick('i_costsPct', pt.costs);
   const s = { ...h, mode: 'invest', ptype: iptype, price, monthlyRent: val('i_monthlyRent') || 0, costsPct,
     bAge: pick('i_bAge', pt.isNew ? 0 : pt.mansion ? 15 : 20, 0), landRatio: pick('i_landRatio', pt.landRatio * 100, 0),
@@ -357,15 +357,73 @@ async function loadVisible() {
   [...PREFS].sort((a, b2) => Math.hypot(a.lat - c.lat, a.lng - c.lng) - Math.hypot(b2.lat - c.lat, b2.lng - c.lng)).slice(0, 2).forEach((p) => want.includes(p.code) || want.push(p.code));
   const need = want.filter((c2) => !loaded[c2]).slice(0, 4);
   if (!need.length) return;
-  need.forEach((c2) => (loaded[c2] = 'loading'));
-  $('mapLoading').textContent = `국토교통성 데이터 불러오는 중… (${need.map((c2) => PREFS.find((p) => p.code === c2).name).join(', ')}, 처음 1회만 다운로드)`;
+  $('mapLoading').textContent = `국토교통성 데이터 불러오는 중… (${need.map((c2) => PREFS.find((p) => p.code === c2).name).join(', ')})`;
+  try { await ensureMunis(need); $('mapLoading').textContent = `${MUNIS[0]?.year}년 지가공시 · ${MUNIS.length}개 시구정촌`; }
+  catch (e) { $('mapLoading').textContent = '불러오기 실패: ' + e.message; }
+}
+// 도도부현별 시구정촌 데이터를 한 번만 불러와 MUNIS에 추가
+async function ensureMunis(codes) {
+  const need = codes.filter((c) => typeof loaded[c] !== 'object' && loaded[c] !== 'loading');
+  if (!need.length) return;
+  need.forEach((c) => (loaded[c] = 'loading'));
   try {
     const res = await API.munis(need);
     res.forEach((p) => { loaded[p.code] = p; MUNIS.push(...p.munis.map((m) => ({ ...m, year: p.year, startYear: p.startYear }))); });
-    $('mapLoading').textContent = `${res[0]?.year}년 지가공시 · ${MUNIS.length}개 시구정촌`;
-  } catch (e) { need.forEach((c2) => delete loaded[c2]); $('mapLoading').textContent = '불러오기 실패: ' + e.message; }
+  } catch (e) { need.forEach((c) => delete loaded[c]); throw e; }
   drawMunis();
 }
+
+// ===== 주소 검색 (국토지리원 주소검색, 키 불필요) =====
+async function geocode(q) {
+  const j = await getJ('https://msearch.gsi.go.jp/address-search/AddressSearch?q=' + encodeURIComponent(q));
+  return j.map((f) => ({ lat: f.geometry.coordinates[1], lng: f.geometry.coordinates[0], title: f.properties.title }));
+}
+async function locate(q) {
+  const hits = await geocode(q);
+  if (!hits.length) throw new Error('주소를 찾지 못했습니다. 도도부현·시구정촌부터 입력해 보세요 (例: 東京都江東区豊洲3丁目).');
+  const h = hits[0];
+  if (!PREFS.length) PREFS = await API.prefs();
+  const d = (a) => Math.hypot(a.lat - h.lat, (a.lng - h.lng) * Math.cos((h.lat * Math.PI) / 180));
+  const codes = [...PREFS].sort((a, b) => d(a) - d(b)).slice(0, 2).map((p) => p.code);
+  await ensureMunis(codes);
+  const cands = MUNIS.filter((m) => codes.includes(m.pref));
+  const muni = cands.filter((m) => h.title.includes(m.name)).sort((a, b) => b.name.length - a.name.length)[0] || cands.sort((a, b) => d(a) - d(b))[0];
+  const near = await API.near(h.lat, h.lng);
+  return { hit: h, muni, near, more: hits.length - 1 };
+}
+async function addrSearch(target) {
+  const ids = { home: ['addrQ', 'addrMsg'], invest: ['i_addrQ', 'i_addrMsg'] }[target];
+  const q = $(ids[0]).value.trim(); if (!q) return;
+  $(ids[1]).textContent = '검색 중…';
+  try {
+    const r = await locate(q);
+    const reg = { ...toRegion(r.muni), addr: r.hit.title };
+    if (target === 'home') { region = reg; store.set('region2', reg); $('landGrowth').value = ''; }
+    else { iregion = reg; store.set('iregion2', reg); $('i_landGrowth').value = ''; }
+    persist();
+    const p = r.near.points.find((x) => x.use === '住宅') || r.near.points[0];
+    const basis = +$('landBasis').value;
+    $(ids[1]).innerHTML = `📍 ${r.hit.title} → <b>${r.muni.name}</b> 적용 (${basis}년 대비 연평균 ${pct(r.muni.chg[basis]?.cagr, 2)})` +
+      (p ? `<br>가장 가까운 주택지 공시지가: ${fmt(p.price)}円/㎡ · ${fmt(p.d, 2)}km · 5년 ${pct(p.chg[5]?.total)} · 10년 ${pct(p.chg[10]?.total)}` : '');
+    calcAll();
+  } catch (e) { $(ids[1]).textContent = e.message; }
+}
+async function mapAddrSearch() {
+  const q = $('mapAddrQ').value.trim(); if (!q) return;
+  $('mapAddrMsg').textContent = '검색 중…';
+  try {
+    await initMap();
+    const r = await locate(q);
+    map.setView([r.hit.lat, r.hit.lng], 14);
+    await onMapClick({ latlng: { lat: r.hit.lat, lng: r.hit.lng } });
+    selectMuni(r.muni);
+    $('mapAddrMsg').textContent = `📍 ${r.hit.title}${r.more ? ` (후보 ${r.more + 1}개 중 첫 번째)` : ''}`;
+  } catch (e) { $('mapAddrMsg').textContent = e.message; }
+}
+$('addrBtn').onclick = () => addrSearch('home');
+$('i_addrBtn').onclick = () => addrSearch('invest');
+$('mapAddrBtn').onclick = mapAddrSearch;
+[['addrQ', () => addrSearch('home')], ['i_addrQ', () => addrSearch('invest')], ['mapAddrQ', mapAddrSearch]].forEach(([id, fn]) => $(id).addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.isComposing) fn(); }));
 function drawMunis() {
   if (!layer) return;
   layer.clearLayers();
