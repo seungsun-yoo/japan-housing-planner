@@ -99,7 +99,7 @@ async function near(lat, lng) {
   const all = [];
   let year;
   for (const pr of prefs) { const p = await loadPref(pr.code); year = p.year; all.push(...p.points); }
-  const pts = all.map((p) => ({ ...p, d: dist(lat, lng, p.lat, p.lng) * 111 })).sort((a, b) => a.d - b.d).slice(0, 8)
+  const pts = all.map((p) => ({ ...p, d: dist(lat, lng, p.lat, p.lng) * 111 })).sort((a, b) => a.d - b.d).slice(0, 30)
     .map((p) => ({ ...p, chg: changes(p.hist) }));
   return { year, points: pts };
 }

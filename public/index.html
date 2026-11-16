@@ -82,6 +82,29 @@ body:not(.static) .static-only{display:none!important}
 .mapsel{position:fixed;left:12px;right:12px;bottom:max(12px,env(safe-area-inset-bottom));z-index:1100;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;gap:10px;align-items:center;box-shadow:0 6px 20px rgba(0,0,0,.3);font-size:13px}
 .mapsel span{flex:1;min-width:0}
 @media(min-width:901px){.mapsel{display:none!important}}
+.form label.stack{grid-template-columns:minmax(0,1fr) auto}
+.form label.stack>select{grid-column:1/-1!important;grid-row:auto!important;margin-top:2px}
+.form label.stack small{grid-column:2;grid-row:1;margin:0}
+.intro ol{margin:4px 0 8px;padding-left:20px}.intro li{margin:3px 0}
+details.fold>summary,details.fold2>summary{cursor:pointer;font-weight:600;color:var(--accent);list-style:none}
+details.fold>summary::before,details.fold2>summary::before{content:'▸ '}details.fold[open]>summary::before,details.fold2[open]>summary::before{content:'▾ '}
+details.fold[open]>summary{margin-bottom:8px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;font-size:13px;z-index:2000;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+.print-only{display:none}
+@media print{
+  @page{size:A4;margin:12mm}
+  :root{--bg:#fff;--panel:#fff;--ink:#111;--mute:#555;--line:#ccc;--soft:#f2f2f2}
+  body{background:#fff;color:#111;font-size:11px}
+  header,.form,nav,.btn,.intro,.mapsel,details.fold,#alerts:empty{display:none!important}
+  .print-only{display:block!important}
+  main{padding:0;max-width:none}
+  .grid{display:block}
+  .card,.kpi{break-inside:avoid;border-color:#ccc}
+  .charts{grid-template-columns:1fr 1fr!important}
+  .chartbox{height:200px}
+  .kpis{grid-template-columns:repeat(4,1fr)!important}
+  .tab:not(.on){display:none!important}
+}
 .maptools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px}
 html{-webkit-text-size-adjust:100%}
 .xscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
@@ -97,7 +120,8 @@ html{-webkit-text-size-adjust:100%}
 }
 /* ---- 스마트폰 ---- */
 @media(max-width:600px){
-  header{flex-direction:column;align-items:stretch}
+  header{flex-direction:column;align-items:stretch;flex-wrap:nowrap}
+  .status{min-width:0;gap:6px}.status .btn{min-height:32px;padding:4px 8px;font-size:12px;flex:0 0 auto}
   header h1{font-size:15px;margin:0}
   nav{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:0 12px;-webkit-overflow-scrolling:touch}
   nav::-webkit-scrollbar{display:none}
@@ -132,10 +156,9 @@ html{-webkit-text-size-adjust:100%}
     <button data-tab="invest">투자 시뮬레이션</button>
     <button data-tab="map">지도·지가</button>
     <button data-tab="refi">대출·갈아타기</button>
-    <button data-tab="rates">금리 모니터</button>
-    <button data-tab="news">뉴스 <span id="newsBadge" class="tag new hide"></span></button>
+    <button data-tab="rates">금리·뉴스 <span id="newsBadge" class="tag new hide"></span></button>
   </nav>
-  <div class="status"><span id="updStatus">불러오는 중…</span><button class="btn server-only" id="refreshBtn">지금 갱신</button></div>
+  <div class="status"><span id="updStatus">불러오는 중…</span><button class="btn" id="shareBtn" type="button">🔗 공유</button><button class="btn" id="pdfBtn" type="button">🖨 PDF</button><button class="btn server-only" id="refreshBtn">지금 갱신</button></div>
 </header>
 <main>
 <!-- ================= 자가 설계 ================= -->
@@ -146,10 +169,11 @@ html{-webkit-text-size-adjust:100%}
     <label>나이<input id="age" type="number" value="35"></label>
     <label>연봉 (세전)<input id="income" type="number" value="700"></label>
     <label>현재 저축<input id="cash" type="number" value="1200"></label>
+    <label class="stack">체류자격 <small>대출 가능 은행·조건이 달라집니다</small><select id="residency"><option value="pr">영주권 · 특별영주자 · 일본 국적</option><option value="spouse">일본인·영주자의 배우자 (배우자 비자)</option><option value="work">취업비자 등 (영주권 없음)</option></select></label>
   </div>
   <div class="card big"><h2>물건</h2>
     <div class="seg" id="ptypeSeg"><button data-v="new_m" class="on">신축 맨션</button><button data-v="used_m">중고 맨션</button><button data-v="new_h">신축 주택</button><button data-v="used_h">중고 주택</button></div>
-    <label>가격 (万円)<input id="price" type="number" value="6500"></label>
+    <label>가격 (万円)<input id="price" type="number" value="4800"></label>
     <div class="rp" id="rp-home">
       <div class="rp-head"><span>지역</span><b id="regionName">-</b></div>
       <div class="seg three"><button type="button" data-m="map">🗺 지도 선택</button><button type="button" data-m="list">📋 리스트 선택</button><button type="button" data-m="direct">✏️ 직접 입력</button></div>
@@ -189,6 +213,8 @@ html{-webkit-text-size-adjust:100%}
     <label>수선·유지비 <small>万/년</small><input id="upkeep" type="number" data-auto></label>
     <h3>대출</h3>
     <label>頭金<input id="down" type="number" data-auto></label>
+    <label>頭金 요건 % <small>체류자격별 가정</small><input id="downReq" type="number" data-auto></label>
+    <label>외국인 가산금리 % <small>체류자격별 가정</small><input id="foreignPremium" type="number" step="0.05" data-auto></label>
     <label>금리 유형<select id="loanType"><option value="variable">변동금리</option><option value="fixed10">고정 10년</option><option value="flat35">フラット35</option></select></label>
     <label>은행<select id="bank"></select></label>
     <label>적용 금리 % <small>직접 입력 시 우선</small><input id="rate" type="number" step="0.001" data-auto></label>
@@ -216,6 +242,11 @@ html{-webkit-text-size-adjust:100%}
 </div>
 
 <div>
+  <div class="card intro hide" id="intro"><h2>처음 오셨나요? 3단계면 됩니다</h2>
+    <ol><li><b>기본 정보</b> — 나이, 연봉, 저축, 체류자격</li><li><b>물건</b> — 유형, 가격, 지역(지도·리스트·직접 입력)</li><li><b>결과 확인</b> — 아래 「계획 도출」에 대출 가능액·안전 예산·추천이 나옵니다</li></ol>
+    <div class="muted">금리·물가·지가는 자동으로 반영됩니다. 세부 조건은 「상세 입력」에서 바꿀 수 있고, 🔗 공유 / 🖨 PDF 로 결과를 저장할 수 있습니다.</div>
+    <button class="btn primary" type="button" id="introOk" style="margin-top:8px">시작하기</button></div>
+  <div class="card print-only" id="printSummary"></div>
   <div class="card plan" id="plan"></div>
   <div class="kpis" id="kpis"></div>
   <div class="card alerts" id="alerts"></div>
@@ -225,7 +256,7 @@ html{-webkit-text-size-adjust:100%}
     <div class="card"><h2>금리 경로와 연간 상환액</h2><div class="chartbox"><canvas id="c3"></canvas></div></div>
     <div class="card"><h2>연간 주거비 구성</h2><div class="chartbox"><canvas id="c4"></canvas></div></div>
   </div>
-  <div class="card"><h2>연도별 상세 (万円)</h2><div class="tablewrap"><table id="tbl"></table></div></div>
+  <details class="card fold"><summary>연도별 상세 표 (万円)</summary><div class="tablewrap"><table id="tbl"></table></div></details>
   <p class="muted">※ 개산 시뮬레이션입니다. 세금(2025년 세제 근사), 심사 기준, 住宅ローン控除 한도는 개정이나 금융기관에 따라 다르므로 계약 전 금융기관·세무사에게 확인하세요. 변동금리의 5년 룰·125% 룰은 반영하지 않았습니다(보수적 계산).</p>
 </div>
 </div>
@@ -287,7 +318,7 @@ html{-webkit-text-size-adjust:100%}
     <div class="card"><h2>세후 현금흐름 (연간·누적)</h2><div class="chartbox"><canvas id="ic1"></canvas></div></div>
     <div class="card"><h2>물건 가치 vs 대출 잔액</h2><div class="chartbox"><canvas id="ic2"></canvas></div></div>
   </div>
-  <div class="card"><h2>연도별 상세 (万円)</h2><div class="tablewrap"><table id="itbl"></table></div></div>
+  <details class="card fold"><summary>연도별 상세 표 (万円)</summary><div class="tablewrap"><table id="itbl"></table></div></details>
 </div>
 </div>
 </section>
@@ -348,30 +379,16 @@ html{-webkit-text-size-adjust:100%}
 </div>
 </section>
 
-<!-- ================= 금리 ================= -->
+<!-- ================= 금리·뉴스 ================= -->
 <section class="tab" id="tab-rates">
-  <div class="card"><h2>최신 수집 금리</h2><div class="xscroll"><table id="rateTbl"></table></div><p class="muted" id="rateNote"></p></div>
-  <div class="card static-only muted">이 공개 사이트는 GitHub Actions가 6시간마다 데이터를 자동 갱신합니다. 감시할 은행은 저장소의 <code>sources.json</code>에 추가하면 다음 갱신부터 반영됩니다.</div>
-  <div class="card form server-only"><h2>감시할 은행 추가 (갱신하려는 은행 정보)</h2>
-    <div class="muted" style="margin-bottom:6px">은행의 금리 안내 페이지 URL과 금리 바로 앞에 나오는 문구(예: 「変動金利」)를 입력하면, 그 문구 뒤에 처음 나오는 「x.xx%」를 자동으로 읽어 6시간마다 확인합니다.</div>
-    <label>이름<input id="s_name" type="text" placeholder="예: ○○銀行 변동" style="text-align:left"></label>
-    <label>URL<input id="s_url" type="text" placeholder="https://" style="text-align:left"></label>
-    <label>키워드<input id="s_kw" type="text" placeholder="変動金利" style="text-align:left"></label>
-    <label>몇 번째 % <small>0 = 첫 번째</small><input id="s_pick" type="number" value="0"></label>
-    <label>유형<select id="s_kind"><option value="variable">변동</option><option value="fixed10">고정10년</option><option value="flat35">フラット35</option></select></label>
-    <button class="btn primary" id="addSrc" type="button">추가하고 바로 확인</button> <span id="addMsg" class="muted"></span>
-  </div>
-  <div class="charts">
-    <div class="card"><h2>10년 국채 금리 장기 추이 (월말)</h2><div class="chartbox"><canvas id="cJgb"></canvas></div></div>
-    <div class="card"><h2>수집 이력 (자동 확인할 때마다 기록)</h2><div class="chartbox"><canvas id="cHist"></canvas></div></div>
-  </div>
   <div class="card"><h2>시장 시그널</h2><div id="signals"></div></div>
-</section>
-
-<!-- ================= 뉴스 ================= -->
-<section class="tab" id="tab-news">
-  <div class="card"><h2>필터</h2><div class="chips" id="chips"></div><input id="q" placeholder="키워드 검색" class="btn" style="margin-top:8px;width:260px"></div>
-  <div class="card news"><ul id="newsList"></ul></div>
+  <div class="card"><h2>이번 주 핵심 뉴스</h2><ul class="news" id="keyNews" style="padding:0;margin:0"></ul>
+    <details class="fold2"><summary>전체 뉴스 보기</summary>
+      <div class="chips" id="chips" style="margin-top:8px"></div><input id="q" placeholder="키워드 검색" class="btn" style="margin-top:8px;width:260px">
+      <div class="news"><ul id="newsList"></ul></div>
+    </details></div>
+  <div class="card"><h2>최신 수집 금리</h2><div class="xscroll"><table id="rateTbl"></table></div><p class="muted" id="rateNote"></p></div>
+  <div class="card"><h2>10년 국채 금리 장기 추이 (월말)</h2><div class="chartbox"><canvas id="cJgb"></canvas></div></div>
 </section>
 </main>
 <script src="app.js"></script>

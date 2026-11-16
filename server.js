@@ -49,6 +49,11 @@ async function collectRate(src) {
   }
   // keyword: 키워드 이후 등장하는 n번째 "x.xx%" 값을 추출
   const t = stripHtml(text);
+  if (src.regex) { // 숫자가 아닌 문장 정보 (예: 다음 금융정책결정회합 일정)
+    const m = t.match(new RegExp(src.regex));
+    if (!m) throw new Error('텍스트를 찾지 못함');
+    return { value: null, text: m[1].trim(), snippet: m[0].slice(0, 160) };
+  }
   let idx = t.indexOf(src.keyword);
   if (idx < 0) throw new Error(`키워드 "${src.keyword}" 없음 (페이지 구조 변경 가능성)`);
   const win = t.slice(idx, idx + 600);

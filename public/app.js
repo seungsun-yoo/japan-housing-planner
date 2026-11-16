@@ -41,6 +41,23 @@ function changesOf(hist) {
   for (const k of [1, 3, 5, 10, 20]) { const b = hist[hist.length - 1 - k]; if (b > 0 && cur > 0) o[k] = { total: (cur / b - 1) * 100, cagr: ((cur / b) ** (1 / k) - 1) * 100 }; }
   return o;
 }
+// 공유 링크(#s=...)로 열면 그 시나리오를 불러옴
+const SHARE_KEYS = ['inputs2', 'ptype', 'iptype', 'region2', 'iregion2', 'rpMode-home', 'rpMode-invest', 'bank', 'tab'];
+const b64e = (str) => btoa(unescape(encodeURIComponent(str))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+const b64d = (str) => decodeURIComponent(escape(atob(str.replace(/-/g, '+').replace(/_/g, '/'))));
+let FROM_SHARE = false;
+(() => {
+  const m = location.hash.match(/#s=([\w-]+)/);
+  if (!m) return;
+  try {
+    const o = JSON.parse(b64d(m[1]));
+    SHARE_KEYS.forEach((k) => (k in o ? store.set(k, o[k]) : localStorage.removeItem(k)));
+    store.set('introDone', true);
+    FROM_SHARE = true;
+  } catch {}
+  history.replaceState(null, '', location.pathname + location.search);
+})();
+window.addEventListener('hashchange', () => { if (/#s=/.test(location.hash)) location.reload(); });
 let region = store.get('region2', null), iregion = store.get('iregion2', null);
 let ptype = store.get('ptype', 'new_m'), iptype = store.get('iptype', 'used_m');
 
@@ -60,12 +77,12 @@ function alertsHtml(a) { return a.length ? a.map(([c, t]) => `<div class="${c}">
 document.querySelectorAll('nav button').forEach((b) => (b.onclick = () => showTab(b.dataset.tab)));
 document.querySelectorAll('[data-goto]').forEach((b) => (b.onclick = () => showTab(b.dataset.goto)));
 function showTab(t) {
+  if (t === 'news') t = 'rates';
   document.querySelectorAll('nav button').forEach((x) => x.classList.toggle('on', x.dataset.tab === t));
   document.querySelectorAll('.tab').forEach((x) => x.classList.toggle('on', x.id === 'tab-' + t));
   store.set('tab', t);
   if (t === 'map') { initMap(); setTimeout(() => map.invalidateSize(), 50); }
-  if (t === 'news') { store.set('newsSeen', new Date().toISOString()); renderNews(); }
-  if (t === 'rates') renderRates();
+  if (t === 'rates') { renderRates(); renderNews(); store.set('newsSeen', new Date().toISOString()); $('newsBadge').classList.add('hide'); }
   if (t === 'invest') calcInvest();
   if (t === 'refi') calcRefi();
   if (t === 'home') calcHome();
@@ -106,6 +123,19 @@ function pick(id, auto, d = 1) {
 // ===== 경제 상황 (자동) =====
 function bestRate(kind) { const l = Object.values(STATUS?.rates || {}).filter((r) => r.kind === kind && isFinite(r.value)); return l.length ? l.reduce((a, b) => (a.value < b.value ? a : b)) : null; }
 const FALLBACK = { variable: 1.0, fixed10: 2.5, flat35: 3.0 };
+// 체류자격별 가정 (은행마다 다르므로 상세 입력에서 조정 가능)
+const RESIDENCY = {
+  pr: { label: '영주권·특별영주자·일본 국적', premium: 0, downReq: 0, flat35: true },
+  spouse: { label: '일본인·영주자의 배우자', premium: 0.1, downReq: 10, flat35: false },
+  work: { label: '취업비자 등 (영주권 없음)', premium: 0.5, downReq: 20, flat35: false },
+};
+function syncResidency() {
+  const r = RESIDENCY[$('residency').value] || RESIDENCY.pr, opt = $('loanType').querySelector('option[value=flat35]');
+  opt.disabled = !r.flat35;
+  opt.textContent = r.flat35 ? 'フラット35' : 'フラット35 (영주권 필요)';
+  if (!r.flat35 && $('loanType').value === 'flat35') { $('loanType').value = 'variable'; fillBanks(); persist(); }
+}
+$('residency').addEventListener('change', () => { syncResidency(); });
 function econ() {
   const e = STATUS?.econ || {};
   const cpi = e.cpi_core?.ok !== false ? e.cpi_core?.value : null;
@@ -123,7 +153,7 @@ function renderEcon(E, s) {
     row('임금상승률 (적용)', fmt(s.wageGrowth, 1) + '%', '명목임금이 물가만큼 오른다고 가정') +
     row('일본은행 정책금리', E.boj != null ? fmt(E.boj, 2) + '%' : '–') +
     row('10년 국채 금리', E.jgb != null ? fmt(E.jgb, 3) + '%' : '–') +
-    row('적용 대출금리', fmt(s.rate, 3) + '%', src.replace(/\s*\d+\.\d+%$/, '')) +
+    row('적용 대출금리', fmt(s.rate, 3) + '%', src.replace(/\s*\d+\.\d+%$/, '') + (s.foreignPremium ? ` + 외국인 가산 ${fmt(s.foreignPremium, 2)}%` : '') + ' · 최우대 금리 (심사 결과에 따라 높아질 수 있음)') +
     row('지가 상승률 (적용)', pct(s.landGrowth), region ? `${region.name} · ${region.manual != null ? '직접 입력' : $('landBasis').value + '년 대비 연평균'}` : '지역 미선택');
 }
 function fillBanks() {
@@ -145,7 +175,9 @@ function homeInputs() {
   const costsPct = pick('costsPct', pt.costs);
   const loanType = $('loanType').value;
   const bankRow = STATUS?.rates?.[$('bank').value];
-  const autoRate = bankRow?.value ?? FALLBACK[loanType];
+  const res = RESIDENCY[$('residency').value] || RESIDENCY.pr;
+  const fp = pick('foreignPremium', res.premium, 2), downReq = pick('downReq', res.downReq, 0);
+  const autoRate = r2((bankRow?.value ?? FALLBACK[loanType]) + fp);
   const basis = +$('landBasis').value;
   const s = {
     mode: 'live', age, income, spouseIncome, cash, price, ptype, living,
@@ -164,7 +196,9 @@ function homeInputs() {
   };
   s.variableBase = pick('variableBase', loanType === 'variable' ? s.rate : (E.variable?.value ?? FALLBACK.variable), 3);
   const costs = (price * costsPct) / 100;
-  s.down = pick('down', Math.max(0, Math.round(Math.min(cash - living * 6, costs + price * 0.1))), 0);
+  s.downRequired = Math.round(costs + (price * downReq) / 100);
+  s.down = pick('down', Math.max(s.downRequired, Math.round(Math.min(cash - living * 6, costs + price * 0.1)), 0), 0);
+  s.residency = $('residency').value; s.foreignPremium = fp; s.downReq = downReq;
   document.querySelectorAll('.custom').forEach((e) => e.classList.toggle('hide', s.rateScenario !== 'custom'));
   return { s, E };
 }
@@ -180,8 +214,12 @@ function calcHome() {
   // ---- 계획 도출 ----
   const loanSafe = pvLoan((g * 0.25) / 12, s.rate + 1, s.term * 12);
   const priceSafe = (loanSafe + s.down) / cf, priceMax = (r.maxLoan + s.down) / cf;
-  const verdict = s.price <= priceSafe ? ['good', '✅ 무리 없는 계획입니다'] : s.price <= priceMax ? ['warn', '⚠️ 대출은 가능하지만 여유가 적습니다'] : ['bad', '⛔ 이 가격은 대출 심사 통과가 어렵습니다'];
+  let verdict = s.price <= priceSafe ? ['good', '✅ 무리 없는 계획입니다'] : s.price <= priceMax ? ['warn', '⚠️ 대출은 가능하지만 여유가 적습니다'] : ['bad', '⛔ 이 가격은 대출 심사 통과가 어렵습니다'];
+  if (s.residency === 'work' && verdict[0] === 'good') verdict = ['warn', '⚠️ 계산상 무리는 없지만, 영주권 없이 이용 가능한 은행이 한정됩니다'];
   const tips = [];
+  if (s.residency !== 'pr') tips.push(s.residency === 'work'
+    ? `체류자격: 영주권이 없으면 대형은행·인터넷은행 대부분과 フラット35를 이용할 수 없습니다. 외국인 대응 은행·모기지 상담이 필요하며, 이 계산은 頭金 ${fmt(s.downReq)}% + 가산금리 ${fmt(s.foreignPremium, 2)}%를 <b>가정</b>했습니다.`
+    : `체류자격: 배우자 비자는 일본인·영주자 배우자를 공동 차입자(페어론·연대보증)로 두는 조건이 많습니다. フラット35는 본인 명의로는 이용할 수 없습니다. 頭金 ${fmt(s.downReq)}%를 가정했습니다.`);
   tips.push(`대출 가능성: 은행 심사 기준(심사금리 3.5%, 返済比率 ${g >= 400 ? 35 : 30}%, ${r.maxTerm}년)으로 최대 약 <b>${man(r.maxLoan)}</b> → 물건 가격 <b>${man(priceMax)}</b>까지`);
   tips.push(`안전 예산: 금리가 1%p 올라도 返済負担率 25% 이내 → 물건 가격 <b>${man(priceSafe)}</b> 이하 권장`);
   const reserve = s.cash - s.down;
@@ -210,8 +248,10 @@ function calcHome() {
   else if (r.burden > 25) al.push(['warn', `返済負担率 ${fmt(r.burden, 1)}% — 안전 기준(25% 이하)보다 높습니다.`]);
   if (r.endAge > 80) al.push(['bad', `완제 나이가 ${r.endAge}세 — 대부분 은행의 완제 연령 상한(80세)을 넘습니다.`]);
   if (SIM.PT[ptype].isNew && s.energy === 'other') al.push(['warn', '2024년 이후 건축확인된 신축 「기타」 주택은 住宅ローン控除 대상 외입니다.']);
-  if (s.down > s.cash) al.push(['bad', '頭金이 현재 저축보다 많습니다.']);
+  if (s.down > s.cash) al.push(['bad', s.down === s.downRequired && s.residency !== 'pr' ? `체류자격상 필요한 頭金(제비용 포함 ${man(s.downRequired)})이 현재 저축보다 많습니다.` : '頭金이 현재 저축보다 많습니다.']);
+  if (s.residency === 'work') al.push(['warn', '영주권이 없는 경우 심사가 가능한 은행이 한정됩니다. 표시된 금리·대출 가능액은 참고치이며 외국인 대응 금융기관의 확인이 필요합니다.']);
   $('alerts').innerHTML = alertsHtml(al);
+  renderPrintSummary(s, r);
   // ---- 차트 ----
   const L = rows.map((x) => x.y + '년');
   chart('c1', { type: 'line', data: { labels: L, datasets: [
@@ -272,6 +312,7 @@ function calcInvest() {
   if (r.grossYield < s.rate + 2) al.push(['warn', `利回り(${fmt(r.grossYield, 2)}%)와 대출금리(${fmt(s.rate, 2)}%)의 차이가 2%p 미만 — 금리 상승에 취약합니다.`]);
   if (r.dscr < 1) al.push(['bad', '임대 수입으로 대출 상환을 감당하지 못합니다 (DSCR < 1). 매달 본인 소득에서 보전이 필요합니다.']);
   if (s.down > h.cash) al.push(['bad', '頭金이 현재 저축보다 많습니다.']);
+  if (h.residency !== 'pr') al.push(['warn', '영주권이 없으면 투자용 대출은 거주용보다 더 어렵습니다. 頭金을 크게(30% 이상) 잡거나 현금 매입도 함께 검토하세요.']);
   $('ialerts').innerHTML = alertsHtml(al);
   const L = rows.map((x) => x.y + '년');
   chart('ic1', { type: 'bar', data: { labels: L, datasets: [
@@ -526,6 +567,8 @@ async function onMapClick(e) {
   $('nearInfo').textContent = '가까운 지점 검색 중…';
   try {
     const j = await API.near(lat, lng);
+    const resi = j.points.filter((p) => p.use === '住宅');
+    j.points = (resi.length >= 3 ? resi : j.points).slice(0, 8);
     window._near = j.points;
     $('nearInfo').innerHTML = `<div class="xscroll"><table><tr><th class="l">주소 · 용도</th><th>円/㎡</th><th>1년</th><th>5년</th><th>10년</th><th></th></tr>` +
       j.points.map((p, i) => `<tr><td class="l" style="white-space:normal">${p.addr.replace(/^\S+\s/, '')}<br><span class="muted">${p.use} · ${fmt(p.d, 2)}km${p.station && p.station !== '_' ? ' · ' + p.station + '역 ' + fmt(p.stationDist) + 'm' : ''}</span></td>
@@ -561,17 +604,15 @@ function renderRates() {
   const all = [...Object.values(STATUS.rates), ...Object.values(STATUS.econ || {}).map((e) => ({ ...e, kind: 'econ' }))];
   $('rateTbl').innerHTML = '<tr><th class="l">출처</th><th>구분</th><th>값</th><th>상태</th><th>확인 시각</th><th></th></tr>' +
     all.map((r) => `<tr><td class="l"><a href="${r.url}" target="_blank" style="color:var(--accent)">${r.name}</a>${r.note ? `<br><span class="muted">${r.note}</span>` : ''}</td><td>${kindL[r.kind] || r.kind}</td>
-      <td><b>${isFinite(r.value) ? r.value.toFixed(r.kind === 'econ' ? 2 : 3) + '%' : '–'}</b></td><td class="${r.ok ? 'good' : 'bad'}">${r.ok ? '정상' : '실패: ' + (r.error || '')}</td>
+      <td><b>${isFinite(r.value) && r.value !== null ? r.value.toFixed(r.kind === 'econ' ? 2 : 3) + '%' : r.text || '–'}</b></td><td class="${r.ok ? 'good' : 'bad'}">${r.ok ? '정상' : '실패: ' + (r.error || '')}</td>
       <td>${new Date(r.at || r.triedAt).toLocaleString('ko-KR')}</td>
       <td>${['variable', 'fixed10', 'flat35'].includes(r.kind) && isFinite(r.value) ? `<button class="btn sm" onclick="useRate('${r.id}','${r.kind}')">적용</button>` : ''}${r.user ? ` <button class="btn sm" onclick="removeSrc('${r.id}')">삭제</button>` : ''}</td></tr>`).join('');
   $('rateNote').textContent = '은행 사이트 HTML에서 키워드 뒤의 금리를 자동으로 읽습니다. 사이트가 개편되면 「실패」로 표시되고 마지막 성공 값이 유지됩니다.';
   const jh = STATUS.jgbHistory || [];
   chart('cJgb', { type: 'line', data: { labels: jh.map((x) => x.d), datasets: [{ label: '10년 국채 %', data: jh.map((x) => x.v), borderColor: C.a, pointRadius: 0, borderWidth: 1.5 }] }, options: { plugins: { legend: { display: false } } } });
-  const h = STATUS.rateHistory || [], ids = Object.keys(STATUS.rates), pal = Object.values(C);
-  chart('cHist', { type: 'line', data: { labels: h.map((x) => new Date(x.at).toLocaleDateString('ko-KR')), datasets: ids.map((id, i) => ({ label: STATUS.rates[id].name.slice(0, 14), data: h.map((x) => x[id] ?? null), borderColor: pal[i % pal.length], spanGaps: true, pointRadius: 2, borderWidth: 1.5 })) } });
-  const sig = [], recent = (STATUS.news || []).filter((x) => x.date && Date.now() - Date.parse(x.date) < 30 * 864e5);
-  const up = recent.filter((x) => x.tags.includes('금리↑')).length, dn = recent.filter((x) => x.tags.includes('금리↓')).length;
-  sig.push(`최근 30일 뉴스: 금리 상승 관련 <b>${up}</b>건 / 하락 관련 <b>${dn}</b>건 → ${up > dn * 2 ? '<span class="warn">상승 압력 우세: 변동금리는 「완만/급상승」 시나리오로 점검 권장</span>' : '중립'}`);
+  const sig = [];
+  const nx = STATUS.econ?.boj_next?.text;
+  if (nx) sig.push(`일본은행 다음 금융정책결정회합: <b>${nx}</b> — 정책금리(현재 ${fmt(STATUS.econ?.boj?.value, 2)}%) 변경 시 변동금리에 반영됩니다`);
   if (jh.length > 12) { const a = jh[jh.length - 1].v, b = jh[jh.length - 13].v; sig.push(`10년 국채 1년간 변화: <b class="${a > b ? 'warn' : 'good'}">${a > b ? '+' : ''}${(a - b).toFixed(2)}%p</b> (${b}% → ${a}%) — 고정금리·フラット35 금리의 선행지표`); }
   const E = econ();
   if (E.variable && E.flat35) sig.push(`고정(フラット35) − 변동 차이: <b>${(E.flat35.value - E.variable.value).toFixed(2)}%p</b>. 변동금리가 이 폭 이상 오르면 고정이 유리해집니다.`);
@@ -580,13 +621,6 @@ function renderRates() {
 }
 window.useRate = (id, kind) => { $('loanType').value = kind; store.set('bank', id); fillBanks(); $('bank').value = id; $('rate').value = ''; persist(); showTab('home'); };
 window.removeSrc = async (id) => { await fetch('/api/sources', { method: 'POST', body: JSON.stringify({ remove: id }) }); loadStatus(); };
-$('addSrc').onclick = async () => {
-  $('addMsg').textContent = '확인 중…';
-  const body = { name: $('s_name').value.trim(), url: $('s_url').value.trim(), keyword: $('s_kw').value.trim(), pick: val('s_pick') || 0, kind: $('s_kind').value };
-  const j = await (await fetch('/api/sources', { method: 'POST', body: JSON.stringify(body) })).json();
-  $('addMsg').textContent = j.error || '추가했습니다. 표에서 결과를 확인하세요.';
-  if (!j.error) { ['s_name', 's_url', 's_kw'].forEach((i) => ($(i).value = '')); loadStatus(); }
-};
 $('refreshBtn').onclick = async () => { $('updStatus').textContent = '수집 중… (최대 1분)'; await fetch('/api/refresh', { method: 'POST' }); loadStatus(); };
 
 // ===== 뉴스 =====
@@ -600,9 +634,44 @@ function renderNews() {
   const list = all.filter((n) => (tagFilter === '전체' || n.tags.includes(tagFilter)) && (!q || n.title.includes(q))).slice(0, 200);
   $('newsList').innerHTML = list.map((n) => `<li>${(n.date || '') > seen ? '<span class="tag new">NEW</span>' : ''}${n.tags.map((t) => `<span class="tag">${t}</span>`).join('')}
     <a href="${n.link}" target="_blank" rel="noopener">${n.title.replace(/</g, '&lt;')}</a><div class="muted">${n.source} · ${n.date ? new Date(n.date).toLocaleString('ko-KR') : ''}</div></li>`).join('') || '<li class="muted">뉴스 없음</li>';
+  // 이번 주 핵심 5건: 금리·일본은행·대출·정책 관련을 우선
+  const W = { '금리↑': 3, '금리↓': 3, '일본은행': 3, '대출': 2, '정책': 2, '지가': 1, '맨션': 1 };
+  const week = all.filter((n) => n.date && Date.now() - Date.parse(n.date) < 7 * 864e5);
+  const key = (week.length ? week : all).map((n) => ({ n, sc: n.tags.reduce((a, t) => a + (W[t] || 0), 0) })).filter((x) => x.sc > 0)
+    .sort((a, b) => b.sc - a.sc || (b.n.date || '').localeCompare(a.n.date || ''))
+    .filter(((seenT) => (x) => { const k = x.n.title.replace(/[\s「」『』！!？?…・|｜-]/g, '').slice(0, 18); if (seenT.has(k)) return false; seenT.add(k); return true; })(new Set()))
+    .slice(0, 5).map((x) => x.n);
+  $('keyNews').innerHTML = key.map((n) => `<li>${n.tags.map((t) => `<span class="tag">${t}</span>`).join('')}<a href="${n.link}" target="_blank" rel="noopener">${n.title.replace(/</g, '&lt;')}</a><div class="muted">${n.source} · ${n.date ? new Date(n.date).toLocaleDateString('ko-KR') : ''}</div></li>`).join('') || '<li class="muted">이번 주 관련 뉴스가 없습니다</li>';
 }
 $('q').addEventListener('input', renderNews);
 store.set('newsSeenPrev', store.get('newsSeen', '1970'));
+
+// ===== 공유 링크 / PDF / 안내 =====
+function toast(msg) { const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2600); }
+$('shareBtn').onclick = async () => {
+  persist();
+  const o = {}; SHARE_KEYS.forEach((k) => { const v = store.get(k, undefined); if (v !== undefined) o[k] = v; });
+  const url = location.origin + location.pathname + '#s=' + b64e(JSON.stringify(o));
+  if (navigator.share && matchMedia('(pointer:coarse)').matches) { try { await navigator.share({ title: '일본 주택 미래설계 — 내 시나리오', url }); return; } catch {} }
+  try { await navigator.clipboard.writeText(url); toast('공유 링크를 복사했습니다. 받은 사람이 열면 같은 조건으로 계산됩니다.'); }
+  catch { prompt('아래 링크를 복사해 공유하세요', url); }
+};
+$('pdfBtn').onclick = () => {
+  const t = document.querySelector('.tab.on')?.id;
+  if (t !== 'tab-home' && t !== 'tab-invest' && t !== 'tab-refi') showTab('home');
+  setTimeout(() => window.print(), 300);
+};
+window.addEventListener('beforeprint', () => Object.values(charts).forEach((c) => c.resize()));
+window.addEventListener('afterprint', () => Object.values(charts).forEach((c) => c.resize()));
+function renderPrintSummary(s, r) {
+  const res = RESIDENCY[s.residency]?.label || '';
+  $('printSummary').innerHTML = `<h2>일본 주택 미래설계 — 시뮬레이션 결과 (${new Date().toLocaleDateString('ko-KR')})</h2>
+    <div>나이 ${s.age}세 · 연봉 ${man(s.income)}${s.spouseIncome ? ` + 배우자 ${man(s.spouseIncome)}` : ''} · 저축 ${man(s.cash)} · ${res}</div>
+    <div>${SIM.PT[s.ptype].label} ${man(s.price)} · ${region?.name || ''} · 頭金 ${man(s.down)} · ${({ variable: '변동', fixed10: '고정10년', flat35: 'フラット35' })[s.loanType]} ${fmt(s.rate, 3)}% / ${s.term}년</div>
+    <div class="muted">물가 ${fmt(s.inflation, 1)}% · 임금 ${fmt(s.wageGrowth, 1)}% · 지가 ${pct(s.landGrowth)}/년 · 금리 시나리오: ${$('rateScenario').selectedOptions[0].textContent} · 출처: https://seungsun-yoo.github.io/japan-housing-planner/</div>`;
+}
+$('introOk').onclick = () => { store.set('introDone', true); $('intro').classList.add('hide'); };
+if (!store.get('introDone', false) && !Object.keys(store.get('inputs2', {})).length) $('intro').classList.remove('hide');
 
 // ===== 시작 =====
 (async () => {
@@ -615,7 +684,9 @@ store.set('newsSeenPrev', store.get('newsSeen', '1970'));
     } catch {}
   }
   await loadStatus();
+  syncResidency();
   showTab(store.get('tab', 'home'));
+  if (FROM_SHARE) toast('공유된 시나리오를 불러왔습니다');
   setInterval(loadStatus, 5 * 60 * 1000);
 })();
 
