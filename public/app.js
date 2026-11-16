@@ -46,10 +46,10 @@ let ptype = store.get('ptype', 'new_m'), iptype = store.get('iptype', 'used_m');
 
 function chart(id, cfg) {
   if (charts[id]) charts[id].destroy();
-  const grid = css('--line'), tick = css('--mute');
+  const grid = css('--line'), tick = css('--mute'), small = window.innerWidth < 600, font = { size: small ? 10 : 12 };
   cfg.options = Object.assign({ responsive: true, maintainAspectRatio: false, animation: false, interaction: { mode: 'index', intersect: false },
-    plugins: { legend: { labels: { color: tick, boxWidth: 12 } } },
-    scales: Object.fromEntries(Object.entries(cfg.scales || { x: {}, y: {} }).map(([k, v]) => [k, Object.assign({ grid: { color: grid }, ticks: { color: tick } }, v)])) }, cfg.options || {});
+    plugins: { legend: { labels: { color: tick, boxWidth: small ? 8 : 12, font } } },
+    scales: Object.fromEntries(Object.entries(cfg.scales || { x: {}, y: {} }).map(([k, v]) => [k, Object.assign({ grid: { color: grid }, ticks: { color: tick, font, maxTicksLimit: small ? 6 : 12 } }, v)])) }, cfg.options || {});
   delete cfg.scales;
   charts[id] = new Chart($(id), cfg);
 }
@@ -124,7 +124,7 @@ function renderEcon(E, s) {
     row('일본은행 정책금리', E.boj != null ? fmt(E.boj, 2) + '%' : '–') +
     row('10년 국채 금리', E.jgb != null ? fmt(E.jgb, 3) + '%' : '–') +
     row('적용 대출금리', fmt(s.rate, 3) + '%', src.replace(/\s*\d+\.\d+%$/, '')) +
-    row('지가 상승률 (적용)', pct(s.landGrowth), region ? `${region.name} · ${$('landBasis').value}년 대비 연평균` : '지역 미선택');
+    row('지가 상승률 (적용)', pct(s.landGrowth), region ? `${region.name} · ${region.manual != null ? '직접 입력' : $('landBasis').value + '년 대비 연평균'}` : '지역 미선택');
 }
 function fillBanks() {
   if (!STATUS) return;
@@ -157,7 +157,7 @@ function homeInputs() {
     upkeep: pick('upkeep', pt.mansion ? 5 : pt.isNew ? 15 : 25, 0),
     loanType, rate: pick('rate', autoRate, 3), term: pick('term', Math.max(10, Math.min(35, 80 - age)), 0),
     rateScenario: $('rateScenario').value, riseStep: val('riseStep') ?? 0.2, riseCap: val('riseCap') ?? 2,
-    landScenario: $('landScenario').value, landGrowth: pick('landGrowth', r1(region?.chg?.[basis]?.cagr ?? 1.0)),
+    landScenario: $('landScenario').value, landGrowth: pick('landGrowth', r1(growthOf(region, basis) ?? 1.0)),
     currentRent: pick('currentRent', r1((price * (pt.mansion ? 0.04 : 0.035)) / 12)), rentGrowth: pick('rentGrowth', r1(E.inflation * 0.75)),
     horizon: pick('horizon', 30, 0), energy: $('energy').value, kosodate: $('kosodate').value === '1',
     investPremium: 0, monthlyRent: 0, vacancy: 0, pmFee: 0, rentDecline: 0, marginalTax: 0, holdYears: 10, saleCost: 4,
@@ -256,7 +256,7 @@ function calcInvest() {
     term: pick('i_term', Math.max(10, Math.min(35, 80 - h.age)), 0),
     marginalTax: pick('i_marginalTax', Math.round(SIM.tax(h.income).marginal * 102.1 + 10), 0),
     holdYears: pick('i_holdYears', 10, 0), saleCost: pick('i_saleCost', 4),
-    landGrowth: pick('i_landGrowth', r1(reg?.chg?.[basis]?.cagr ?? 1.0)) };
+    landGrowth: pick('i_landGrowth', r1(growthOf(reg, basis) ?? 1.0)) };
   s.down = pick('i_down', Math.round(Math.min(h.cash, (price * costsPct) / 100 + price * 0.1)), 0);
   const r = SIM.run(s), rows = r.rows;
   $('ikpis').innerHTML = kpi('表面利回り', fmt(r.grossYield, 2) + '%', '연 임대료 ÷ 가격', r.grossYield < 4 ? 'warn' : 'good') +
@@ -397,15 +397,10 @@ async function addrSearch(target) {
   $(ids[1]).textContent = '검색 중…';
   try {
     const r = await locate(q);
-    const reg = { ...toRegion(r.muni), addr: r.hit.title };
-    if (target === 'home') { region = reg; store.set('region2', reg); $('landGrowth').value = ''; }
-    else { iregion = reg; store.set('iregion2', reg); $('i_landGrowth').value = ''; }
-    persist();
     const p = r.near.points.find((x) => x.use === '住宅') || r.near.points[0];
     const basis = +$('landBasis').value;
-    $(ids[1]).innerHTML = `📍 ${r.hit.title} → <b>${r.muni.name}</b> 적용 (${basis}년 대비 연평균 ${pct(r.muni.chg[basis]?.cagr, 2)})` +
-      (p ? `<br>가장 가까운 주택지 공시지가: ${fmt(p.price)}円/㎡ · ${fmt(p.d, 2)}km · 5년 ${pct(p.chg[5]?.total)} · 10년 ${pct(p.chg[10]?.total)}` : '');
-    calcAll();
+    setRegion(target, { ...toRegion(r.muni), addr: r.hit.title }, `📍 ${r.hit.title} → <b>${r.muni.name}</b> 적용 (${basis}년 대비 연평균 ${pct(r.muni.chg[basis]?.cagr, 2)})` +
+      (p ? `<br>가장 가까운 주택지 공시지가: ${fmt(p.price)}円/㎡ · ${fmt(p.d, 2)}km · 5년 ${pct(p.chg[5]?.total)} · 10년 ${pct(p.chg[10]?.total)}` : ''));
   } catch (e) { $(ids[1]).textContent = e.message; }
 }
 async function mapAddrSearch() {
@@ -437,10 +432,13 @@ function drawMunis() {
 }
 function selectMuni(m) {
   selected = m;
+  $('mapSelText').innerHTML = `<b>${m.name}</b><br>${period}년 대비 연평균 ${pct(m.chg[period]?.cagr, 2)} · ${fmt(m.price)}円/㎡`;
+  $('mapSelApply').textContent = `${RP[mapReturn].name}에 적용`;
+  $('mapSel').classList.remove('hide');
   const rows = PERIODS.map((p) => `<tr><td class="l">${p}년 대비${p === period ? ' ◀' : ''}</td><td>${pct(m.chg[p]?.total)}</td><td>${pct(m.chg[p]?.cagr, 2)}</td></tr>`).join('');
   $('areaInfo').innerHTML = `<b style="font-size:15px;color:var(--ink)">${m.name}</b> <span class="muted">${m.residential ? '주택지' : '전체 용도'} ${m.n}지점 중앙값 · ${m.year}년 공시</span><br>
     <b style="color:var(--ink)">${fmt(m.price)}円/㎡</b> <span class="muted">(평당 약 ${fmt((m.price * 3.306) / 10000)}만엔)</span>
-    <table style="margin-top:6px"><tr><th class="l">기간</th><th>누적 상승률</th><th>연평균</th></tr>${rows}</table>`;
+    <div class="xscroll"><table style="margin-top:6px"><tr><th class="l">기간</th><th>누적 상승률</th><th>연평균</th></tr>${rows}</table></div>`;
   const g0 = m.chg[period]?.cagr ?? 0, yr = m.year, hist = m.idx || [], start = yr - hist.length + 1;
   const proj = (sc) => SIM.landPath(g0, 30, sc).map((v) => v * 100);
   const labels = [...hist.map((_, i) => start + i), ...Array.from({ length: 30 }, (_, i) => yr + i + 1)].map(String);
@@ -453,9 +451,74 @@ function selectMuni(m) {
     options: { scales: { x: { ticks: { color: css('--mute'), maxTicksLimit: 10 }, grid: { color: css('--line') } }, y: { ticks: { color: css('--mute') }, grid: { color: css('--line') } } } } });
   $('landNote').textContent = `전망 출발점: ${period}년 대비 연평균 ${pct(g0, 2)}. 장기 수렴값(낙관 +1.5% / 기본 +0.5% / 비관 −1.0%)으로 점차 수렴하는 모델이며, 과거 추세의 외삽일 뿐 예측을 보장하지 않습니다.`;
 }
-const toRegion = (m) => ({ name: m.name, price: m.price, chg: m.chg, lat: m.lat, lng: m.lng });
-$('applyArea').onclick = () => { if (!selected) return; region = toRegion(selected); store.set('region2', region); $('landGrowth').value = ''; persist(); showTab('home'); };
-$('applyAreaInv').onclick = () => { if (!selected) return; iregion = toRegion(selected); store.set('iregion2', iregion); $('i_landGrowth').value = ''; persist(); showTab('invest'); };
+const toRegion = (m) => ({ name: m.name, price: m.price, chg: m.chg, lat: m.lat, lng: m.lng, pref: m.pref, code: m.code });
+const growthOf = (reg, basis) => (reg?.manual != null ? reg.manual : reg?.chg?.[basis]?.cagr);
+
+// ===== 지역 선택: 지도 선택 / 리스트 선택 / 직접 입력 =====
+const RP = {
+  home: { p: '', name: '자가 설계', set: (r) => { region = r; store.set('region2', r); $('landGrowth').value = ''; } },
+  invest: { p: 'i_', name: '투자', set: (r) => { iregion = r; store.set('iregion2', r); $('i_landGrowth').value = ''; } },
+};
+let mapReturn = 'home';
+function setRegion(target, reg, msg) {
+  RP[target].set(reg); persist();
+  if (msg != null) $(RP[target].p + 'addrMsg').innerHTML = msg;
+  calcAll();
+}
+function applySelected(target) {
+  if (!selected) { $('areaInfo').innerHTML = '<span class="warn">먼저 지도에서 원(시구정촌)을 눌러 지역을 선택하세요.</span>'; return; }
+  const basis = +$('landBasis').value;
+  setRegion(target, toRegion(selected), `🗺 지도에서 <b>${selected.name}</b> 적용 (${basis}년 대비 연평균 ${pct(selected.chg[basis]?.cagr, 2)})`);
+  showTab(target);
+}
+$('applyArea').onclick = () => applySelected('home');
+$('applyAreaInv').onclick = () => applySelected('invest');
+$('mapSelApply').onclick = () => applySelected(mapReturn);
+async function fillPrefList(target) {
+  const p = RP[target].p, sel = $(p + 'rpPref');
+  if (sel.options.length > 1) return;
+  if (!PREFS.length) PREFS = await API.prefs();
+  sel.innerHTML = '<option value="">도도부현 선택</option>' + PREFS.map((x) => `<option value="${x.code}">${x.name}</option>`).join('');
+  const cur = target === 'home' ? region : iregion;
+  if (cur?.pref) { sel.value = cur.pref; await fillMuniList(target, cur.code); }
+}
+async function fillMuniList(target, pick) {
+  const p = RP[target].p, code = +$(p + 'rpPref').value, sel = $(p + 'rpMuni');
+  if (!code) { sel.innerHTML = '<option value="">시구정촌 선택</option>'; return; }
+  sel.innerHTML = '<option value="">불러오는 중…</option>';
+  try { await ensureMunis([code]); } catch (e) { sel.innerHTML = '<option value="">불러오기 실패</option>'; return; }
+  const basis = +$('landBasis').value;
+  const list = MUNIS.filter((m) => m.pref === code).sort((a, b) => String(a.code).localeCompare(String(b.code)));
+  sel.innerHTML = '<option value="">시구정촌 선택</option>' + list.map((m) => `<option value="${m.code}">${m.name}  (${basis}년 연평균 ${pct(m.chg[basis]?.cagr, 1)})</option>`).join('');
+  if (pick) sel.value = pick;
+}
+function initPicker(target) {
+  const p = RP[target].p, root = $('rp-' + target);
+  const setMode = (m) => {
+    root.querySelectorAll('.seg button').forEach((b) => b.classList.toggle('on', b.dataset.m === m));
+    root.querySelectorAll('.rp-pane').forEach((x) => x.classList.toggle('hide', x.dataset.m !== m));
+    store.set('rpMode-' + target, m);
+    if (m === 'list') fillPrefList(target);
+  };
+  root.querySelectorAll('.seg button').forEach((b) => (b.onclick = () => setMode(b.dataset.m)));
+  setMode(store.get('rpMode-' + target, 'map'));
+  root.querySelector('[data-openmap]').onclick = () => { mapReturn = target; showTab('map'); };
+  $(p + 'rpPref').onchange = (e) => { e.stopPropagation(); fillMuniList(target); };
+  $(p + 'rpMuni').onchange = (e) => {
+    e.stopPropagation();
+    const m = MUNIS.find((x) => String(x.code) === $(p + 'rpMuni').value);
+    if (!m) return;
+    const basis = +$('landBasis').value;
+    setRegion(target, toRegion(m), `📋 <b>${m.name}</b> 적용 · ${fmt(m.price)}円/㎡ · ${basis}년 대비 연평균 ${pct(m.chg[basis]?.cagr, 2)}`);
+  };
+  $(p + 'rpApply').onclick = () => {
+    const g = val(p + 'rpGrowth');
+    if (g == null || isNaN(g)) { $(p + 'addrMsg').innerHTML = '<span class="warn">지가 상승률(%/년)을 입력하세요.</span>'; return; }
+    const name = $(p + 'rpName').value.trim() || '직접 입력 지역';
+    setRegion(target, { name, price: val(p + 'rpPrice'), manual: g, chg: {} }, `✏️ <b>${name}</b> · 지가 상승률 연 ${pct(g)} 적용${val(p + 'rpPrice') ? ` · ${fmt(val(p + 'rpPrice'))}円/㎡` : ''}`);
+  };
+}
+initPicker('home'); initPicker('invest');
 async function onMapClick(e) {
   const { lat, lng } = e.latlng;
   if (nearMarker) nearMarker.remove();
@@ -464,9 +527,9 @@ async function onMapClick(e) {
   try {
     const j = await API.near(lat, lng);
     window._near = j.points;
-    $('nearInfo').innerHTML = `<table><tr><th class="l">주소 · 용도</th><th>円/㎡</th><th>1년</th><th>5년</th><th>10년</th><th></th></tr>` +
+    $('nearInfo').innerHTML = `<div class="xscroll"><table><tr><th class="l">주소 · 용도</th><th>円/㎡</th><th>1년</th><th>5년</th><th>10년</th><th></th></tr>` +
       j.points.map((p, i) => `<tr><td class="l" style="white-space:normal">${p.addr.replace(/^\S+\s/, '')}<br><span class="muted">${p.use} · ${fmt(p.d, 2)}km${p.station && p.station !== '_' ? ' · ' + p.station + '역 ' + fmt(p.stationDist) + 'm' : ''}</span></td>
-        <td>${fmt(p.price)}</td><td>${pct(p.chg[1]?.total)}</td><td>${pct(p.chg[5]?.total)}</td><td>${pct(p.chg[10]?.total)}</td><td><button class="btn sm" onclick="pickPoint(${i})">선택</button></td></tr>`).join('') + '</table>';
+        <td>${fmt(p.price)}</td><td>${pct(p.chg[1]?.total)}</td><td>${pct(p.chg[5]?.total)}</td><td>${pct(p.chg[10]?.total)}</td><td><button class="btn sm" onclick="pickPoint(${i})">선택</button></td></tr>`).join('') + '</table></div>';
   } catch (err) { $('nearInfo').textContent = '검색 실패: ' + err.message; }
 }
 window.pickPoint = (i) => {
@@ -555,3 +618,14 @@ store.set('newsSeenPrev', store.get('newsSeen', '1970'));
   showTab(store.get('tab', 'home'));
   setInterval(loadStatus, 5 * 60 * 1000);
 })();
+
+// 화면 크기·방향이 바뀌면 차트 글꼴/지도 크기를 다시 맞춤
+let _rz, _lastW = window.innerWidth;
+window.addEventListener('resize', () => {
+  clearTimeout(_rz);
+  _rz = setTimeout(() => {
+    if ((window.innerWidth < 600) !== (_lastW < 600)) { calcAll(); if ($('tab-rates').classList.contains('on')) renderRates(); if (selected && map) selectMuni(selected); }
+    _lastW = window.innerWidth;
+    if (map) map.invalidateSize();
+  }, 250);
+});
