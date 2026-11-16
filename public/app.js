@@ -32,7 +32,7 @@ const API = {
       const j = await getJ(`data/land/points-${p.code}.json`); year = j.year;
       all.push(...j.points.map(([la, ln, addr, use, station, stationDist, price, hist]) => ({ lat: la, lng: ln, addr, use, station, stationDist, price, hist })));
     }
-    const pts = all.map((p) => ({ ...p, d: dist(lat, lng, p.lat, p.lng) * 111 })).sort((a, b) => a.d - b.d).slice(0, 8).map((p) => ({ ...p, chg: changesOf(p.hist) }));
+    const pts = all.map((p) => ({ ...p, d: dist(lat, lng, p.lat, p.lng) * 111 })).sort((a, b) => a.d - b.d).slice(0, 30).map((p) => ({ ...p, chg: changesOf(p.hist) }));
     return { year, points: pts };
   },
 };
