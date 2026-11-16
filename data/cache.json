@@ -10,7 +10,7 @@
    "asOf": "R8.11.13",
    "snippet": "基準日 R8.11.13 10年 2.899%",
    "ok": true,
-   "at": "2026-11-16T02:25:28.413Z",
+   "at": "2026-11-16T02:45:22.077Z",
    "error": null
   },
   "flat35": {
@@ -25,7 +25,7 @@
    "value": 3.81,
    "snippet": "最頻金利 ※融資率9割以下・新機構団信付 当初5年間 6年目以降 年 2.81 % 年 3.81 % 年 2.49 % 年 3.49 % 年 3.11 % 年 4.11 % ※金融機関の提供する金利で最も多いもの ※当初5年間の金利は、計4ポイントを適用し、年1.0％引き下げられた場合の金利を表示しています。 ポイント",
    "ok": true,
-   "at": "2026-11-16T02:25:28.413Z",
+   "at": "2026-11-16T02:45:22.077Z",
    "error": null
   },
   "mufg_var": {
@@ -39,7 +39,7 @@
    "value": 1.195,
    "snippet": "変動金利 市場金利の変化により金利を見直しします。借入時の金利を抑えたい方におススメです。 【ずーっと一律優遇コース】適用金利 変動金利 年 1.195 % （店頭表示金利 年3.375%） 完済まで店頭表示金利より 年▲2.18% です。固定金利に変更後も、引下幅は変わりません。 固定金利 選択した固定期間の金利・返",
    "ok": true,
-   "at": "2026-11-16T02:25:28.413Z",
+   "at": "2026-11-16T02:45:22.077Z",
    "error": null
   },
   "jibun_var": {
@@ -53,7 +53,7 @@
    "value": 1.68,
    "snippet": "変動金利 全期間引下げプラン＜11月にお借り入れの場合＞ 金利重視の方 一般団信限定金利 （特約なし） 年 1.680 ％ 保障重視の方 がん50％保障団信 （特約あり） 年 1.734 ％ 2026/11/16 現在 51歳以上のお客さまの金利 金利の詳細はこちら 物件価格の80％超でお借り入れの場合、表示の金利に年",
    "ok": true,
-   "at": "2026-11-16T02:25:28.413Z",
+   "at": "2026-11-16T02:45:22.077Z",
    "error": null
   },
   "mufg_fix10": {
@@ -67,7 +67,7 @@
    "value": 3.89,
    "snippet": "固定10年 年 3.89 % （店頭表示金利 年6.67%） 固定20年 年 4.61 % （店頭表示金利 年8.34%） 当初固定期間終了後は、固定3年はその時点の店頭表示金利より 年▲1.80% 、固定10年・固定20年はその時点の店頭表示金利より 年▲1.55% です。 全期間固定金利 完済までの金利・返済額を確",
    "ok": true,
-   "at": "2026-11-16T02:25:28.413Z",
+   "at": "2026-11-16T02:45:22.077Z",
    "error": null
   }
  },
@@ -188,6 +188,17 @@
    ]
   },
   {
+   "title": "日本経済が1年ぶりに縮小 日銀は利上げに踏み切るか - BeInCrypto",
+   "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBLOHdtLUpxMUhkYUY1RXpydkhsVF9ueU41OHBTMTlFc1lacEZnM2lxeHNUWnQ4WXpEQlY4b0tKb0N3UmxVVmpXOWt5ZmEybGd6SHAxM25Xbkt3R2ctTHFKa25MWmlLTEpILTVmOTBVQQ?oc=5",
+   "source": "BeInCrypto",
+   "feed": "日銀 利上げ",
+   "date": "2026-11-15T19:26:59.000Z",
+   "tags": [
+    "금리↑",
+    "일본은행"
+   ]
+  },
+  {
    "title": "住宅ローン「借入額は年収の５倍までを目安に」…比較サイト最大手・モゲチェック塩沢崇取締役に注意点を聞いた - Yahoo!ニュース",
    "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTFBNdkFCSjh1cEplQjB6d1UtMERBeDdobC1sUVo4V1AtQ0JkeW9kcFRYS01HX1NRLVJDRnZTaDJDRTJHU0ladFhKNzJXY1FieC1FN2RtNVZyVC1ZQnJKYy1hSEExUUM2dU1od3Vockh0aEx1ek81RVZlTHhCbHRHaHM?oc=5",
    "source": "Yahoo!ニュース",
@@ -258,6 +269,16 @@
    "date": "2026-11-14T23:00:00.000Z",
    "tags": [
     "금리↑",
+    "맨션"
+   ]
+  },
+  {
+   "title": "福岡市のマンション「手が出ない」 続く高騰、価格4割アップの年も（朝日新聞） - Yahoo!ニュース",
+   "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE4wUHpxSWEyTV9mMEthZUV0WlRuZ1k2MnBrVEJFTGhiX3JfREZrUGdpLTlrWnhVdkJ6cHR0SFU1cDVWVXBfYnlrSm04ZFZ1azg5cmotbWRqTm9kY1lkU3F2Z3ZiZDhlVGVsclhJY1JxblFldGVrMWZpelB5cXBLQ3c?oc=5",
+   "source": "Yahoo!ニュース",
+   "feed": "マンション価格",
+   "date": "2026-11-14T23:00:00.000Z",
+   "tags": [
     "맨션"
    ]
   },
@@ -1907,9 +1928,9 @@
    ]
   },
   {
-   "title": "日銀、１２月利上げを視野 物価上振れ、中立金利目指す - 時事ドットコム",
-   "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE8tQzJRd3lvOU5WV1RJRVRRNWlUUHZRUm5tVEYwdFIxS1NteWd3RWJqdFR5dUE0QUMySnRSckhtSEJ1ZjBidHFvRFNBOGtUeGhqbXN2Y0tXVm5ycC03TkVZaThFdw?oc=5",
-   "source": "時事ドットコム",
+   "title": "日銀、利上げ継続「未知の世界」へ 近づく引き締め領域 - 日本経済新聞",
+   "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1ic1BQa1YwYkRaaVpnOWVCbUVLU0FDSk9wbUFmTkVpRHBXdHphN2tyYVdzRHJyenlsc3k0WHZpYXg0bS1GOGdjSkJSNGs3WTNZUzdZQWZlUm1BcjZualJQT3I3R0FPdWtabnlWbA?oc=5",
+   "source": "日本経済新聞",
    "feed": "日銀 利上げ",
    "date": "2026-10-31T07:00:00.000Z",
    "tags": [
@@ -1918,9 +1939,9 @@
    ]
   },
   {
-   "title": "日銀、利上げ継続「未知の世界」へ 近づく引き締め領域 - 日本経済新聞",
-   "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1ic1BQa1YwYkRaaVpnOWVCbUVLU0FDSk9wbUFmTkVpRHBXdHphN2tyYVdzRHJyenlsc3k0WHZpYXg0bS1GOGdjSkJSNGs3WTNZUzdZQWZlUm1BcjZualJQT3I3R0FPdWtabnlWbA?oc=5",
-   "source": "日本経済新聞",
+   "title": "日銀、１２月利上げを視野 物価上振れ、中立金利目指す - 時事ドットコム",
+   "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE8tQzJRd3lvOU5WV1RJRVRRNWlUUHZRUm5tVEYwdFIxS1NteWd3RWJqdFR5dUE0QUMySnRSckhtSEJ1ZjBidHFvRFNBOGtUeGhqbXN2Y0tXVm5ycC03TkVZaThFdw?oc=5",
+   "source": "時事ドットコム",
    "feed": "日銀 利上げ",
    "date": "2026-10-31T07:00:00.000Z",
    "tags": [
@@ -3970,31 +3991,9 @@
    "tags": [
     "맨션"
    ]
-  },
-  {
-   "title": "【2026年版】｢兵庫県の住宅地｣地価上昇率ランキングTOP302地点 2位タイは阪急御影＆大久保､1位に輝いた意外な地点は？ - 東洋経済オンライン",
-   "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE0xbDhzenBwZDJOOVR2cWdsaXpSbHBKbXRsbS0tdlVfUUtwaDU4Q0pudER3bnE5NURwc3NmZXVGMk5YNV8tUFNQd0I2bnFmaU9XYXRfY0tkRmxyU3R3RXpN?oc=5",
-   "source": "東洋経済オンライン",
-   "feed": "地価",
-   "date": "2026-06-07T07:00:00.000Z",
-   "tags": [
-    "금리↑",
-    "지가"
-   ]
-  },
-  {
-   "title": "【2026年版】｢神奈川県の住宅地｣地価上昇率ランキングTOP502 3位横浜､2位辻堂､1位に輝いたのは意外な\"マイナー駅\" - 東洋経済オンライン",
-   "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFByRVRsNWhfWXBqT0NNMzI3dEtlNlYzTHgxcUtTY3FGQVl5eDhpeEEtYm01bVFma2J6c3ctMHpJekNBaF9XSkZqLXZqaHhob0VoZ0lzMTN6RzhWR3UzU1dN?oc=5",
-   "source": "東洋経済オンライン",
-   "feed": "地価",
-   "date": "2026-06-01T07:00:00.000Z",
-   "tags": [
-    "금리↑",
-    "지가"
-   ]
   }
  ],
- "updatedAt": "2026-11-16T02:25:33.564Z",
+ "updatedAt": "2026-11-16T02:45:27.566Z",
  "log": [
   "2026-11-16T00:20:35.759Z 수집 시작",
   "2026-11-16T00:20:37.999Z JGB 이력 실패: HTTP 404",
@@ -4006,7 +4005,8 @@
   "2026-11-16T02:08:21.813Z 수집 시작",
   "2026-11-16T02:17:27.986Z 수집 시작",
   "2026-11-16T02:19:30.900Z 수집 시작",
-  "2026-11-16T02:25:28.411Z 수집 시작"
+  "2026-11-16T02:25:28.411Z 수집 시작",
+  "2026-11-16T02:45:22.075Z 수집 시작"
  ],
  "jgbHistory": [
   {
@@ -5309,7 +5309,7 @@
    "value": 2.1,
    "snippet": "総合指数 は2025年を100として102.2 前年同月比は2.1%の上昇 (2) 生鮮食品を除く総合指数 は102.3 前年同月比は2.1％の上昇 (3) 生鮮食品及びエネルギーを除く総合指数 は102.8 前年同月比は2.4%の上昇 次回の公表日は、 公表予定 をご覧ください。 今月の結果（冊子） 2025年基準 ",
    "ok": true,
-   "at": "2026-11-16T02:25:28.413Z",
+   "at": "2026-11-16T02:45:22.077Z",
    "error": null
   },
   "cpi_core": {
@@ -5322,7 +5322,7 @@
    "value": 2.1,
    "snippet": "生鮮食品を除く総合指数 は102.3 前年同月比は2.1％の上昇 (3) 生鮮食品及びエネルギーを除く総合指数 は102.8 前年同月比は2.4%の上昇 次回の公表日は、 公表予定 をご覧ください。 今月の結果（冊子） 2025年基準 消費者物価指数 全国 2026年（令和8年）9月分（PDF：429KB） 『都市階級",
    "ok": true,
-   "at": "2026-11-16T02:25:28.413Z",
+   "at": "2026-11-16T02:45:22.077Z",
    "error": null
   },
   "boj": {
@@ -5335,7 +5335,21 @@
    "value": 1.25,
    "snippet": "無担保コールレート（O/N物）：1.25％程度で推移するよう促す 金融市場調節実績（オペレーション） 〒103-0021 東京都中央区日本橋本石町2-1-1（ 所在地 ） 電話 03-3279-1111（代表） 各種窓口・手続き 損傷したお金の引換え窓口 外為法に関する手続き 国庫金・国債の窓口 組織情報 日本銀行の組",
    "ok": true,
-   "at": "2026-11-16T02:25:28.413Z",
+   "at": "2026-11-16T02:45:22.077Z",
+   "error": null
+  },
+  "boj_next": {
+   "id": "boj_next",
+   "name": "일본은행 다음 금융정책결정회합",
+   "url": "https://www.boj.or.jp/",
+   "keyword": "次回金融政策決定会合",
+   "regex": "次回金融政策決定会合（予定）\\s*([0-9]{4}年[0-9]{1,2}月[0-9]{1,2}日(?:、[0-9]{1,2}日)?)",
+   "kind": "econ",
+   "value": null,
+   "text": "2026年12月17日、18日",
+   "snippet": "次回金融政策決定会合（予定） 2026年12月17日、18日",
+   "ok": true,
+   "at": "2026-11-16T02:45:22.077Z",
    "error": null
   }
  }
