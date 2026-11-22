@@ -10,7 +10,7 @@
    "asOf": "R8.11.19",
    "snippet": "基準日 R8.11.19 10年 2.87%",
    "ok": true,
-   "at": "2026-11-22T06:57:32.231Z",
+   "at": "2026-11-22T19:45:47.725Z",
    "error": null
   },
   "flat35": {
@@ -25,7 +25,7 @@
    "value": 3.81,
    "snippet": "最頻金利 ※融資率9割以下・新機構団信付 当初5年間 6年目以降 年 2.81 % 年 3.81 % 年 2.49 % 年 3.49 % 年 3.11 % 年 4.11 % ※金融機関の提供する金利で最も多いもの ※当初5年間の金利は、計4ポイントを適用し、年1.0％引き下げられた場合の金利を表示しています。 ポイント",
    "ok": true,
-   "at": "2026-11-22T06:57:32.231Z",
+   "at": "2026-11-22T19:45:47.725Z",
    "error": null
   },
   "mufg_var": {
@@ -39,7 +39,7 @@
    "value": 1.195,
    "snippet": "変動金利 市場金利の変化により金利を見直しします。借入時の金利を抑えたい方におススメです。 【ずーっと一律優遇コース】適用金利 変動金利 年 1.195 % （店頭表示金利 年3.375%） 完済まで店頭表示金利より 年▲2.18% です。固定金利に変更後も、引下幅は変わりません。 固定金利 選択した固定期間の金利・返",
    "ok": true,
-   "at": "2026-11-22T06:57:32.231Z",
+   "at": "2026-11-22T19:45:47.725Z",
    "error": null
   },
   "jibun_var": {
@@ -51,9 +51,9 @@
    "keyword": "変動金利",
    "pick": 0,
    "value": 1.68,
-   "snippet": "変動金利 全期間引下げプラン＜11月にお借り入れの場合＞ 金利重視の方 一般団信限定金利 （特約なし） 年 1.680 ％ 保障重視の方 がん50％保障団信 （特約あり） 年 1.734 ％ 2026/11/22 現在 51歳以上のお客さまの金利 金利の詳細はこちら 物件価格の80％超でお借り入れの場合、表示の金利に年",
+   "snippet": "変動金利 全期間引下げプラン＜11月にお借り入れの場合＞ 金利重視の方 一般団信限定金利 （特約なし） 年 1.680 ％ 保障重視の方 がん50％保障団信 （特約あり） 年 1.734 ％ 2026/11/23 現在 51歳以上のお客さまの金利 金利の詳細はこちら 物件価格の80％超でお借り入れの場合、表示の金利に年",
    "ok": true,
-   "at": "2026-11-22T06:57:32.231Z",
+   "at": "2026-11-22T19:45:47.725Z",
    "error": null
   },
   "mufg_fix10": {
@@ -67,7 +67,7 @@
    "value": 3.89,
    "snippet": "固定10年 年 3.89 % （店頭表示金利 年6.67%） 固定20年 年 4.61 % （店頭表示金利 年8.34%） 当初固定期間終了後は、固定3年はその時点の店頭表示金利より 年▲1.80% 、固定10年・固定20年はその時点の店頭表示金利より 年▲1.55% です。 全期間固定金利 完済までの金利・返済額を確",
    "ok": true,
-   "at": "2026-11-22T06:57:32.231Z",
+   "at": "2026-11-22T19:45:47.725Z",
    "error": null
   }
  },
@@ -170,6 +170,36 @@
  ],
  "news": [
   {
+   "title": "マイナス金利解除で住宅ローン金利はどうなる？変動金利のルールと注意点｜金子徳公 - mbp-japan.com",
+   "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5lNWZyeGxsSTFXS1VrWUpmRUVWRWJuXzhWdnRRNXB6Qmw0VTZwWWE4WWptOUtEcXZyeWxTZjZPQ1h5VWdLVGd3bjNKcEVNVHA4Sm5Qa2dLQzNqN0lpMUVpcHprTXBObmx4dklB?oc=5",
+   "source": "mbp-japan.com",
+   "feed": "住宅ローン 金利",
+   "date": "2026-11-22T13:55:25.000Z",
+   "tags": [
+    "대출"
+   ]
+  },
+  {
+   "title": "首都圏新築マンション、12月は5,800戸超を供給（2024年12月）｜金子徳公 - mbp-japan.com",
+   "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE53Rl82QzRUNm5FRGhCNXB6dWxaUklIYmJlakFnWlVFWFV5RlFkVG9RYnpTeHRWQnl0SXRhUFlxTno2MkxmOHd0dm8tT1UxQXlJM2hOOFAwWGtEbWZVdm56UGh5cUYyd2d2Q3FN?oc=5",
+   "source": "mbp-japan.com",
+   "feed": "マンション価格",
+   "date": "2026-11-22T08:43:25.000Z",
+   "tags": [
+    "맨션"
+   ]
+  },
+  {
+   "title": "マイホームは「一生住む家」じゃない？ マンション購入者の約6割が将来の住み替えを想定 - Infoseek",
+   "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE9rU3E0UXpfSzktak1rNnhoTHBmRjZ3UEYzRW1VMEhwbzJqV2ZsNFluRFVKYlpUS3V1RlJUSGZSRWdHVHFhRXlnWUx3M3N5eGxlNXJTOWNCanp3U3djNEk4?oc=5",
+   "source": "Infoseek",
+   "feed": "住宅ローン 金利",
+   "date": "2026-11-22T08:00:00.000Z",
+   "tags": [
+    "맨션"
+   ]
+  },
+  {
    "title": "千葉・浦安に全205戸の都市型分譲マンション「グランド・ガーラ浦安」が登場、FJネクストが販売開始 - リヴプラス",
    "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE8wQkRHcGx2OHoyQ205dC1IaHRBNHRVNm4tOWYtOFZUN0p1NVdmWTdqMXppSHM0R3VYeGE3S190dFBhSXdCXzNrWUhKWlotUU9ESmc?oc=5",
    "source": "リヴプラス",
@@ -201,7 +231,7 @@
   },
   {
    "title": "住宅価格と金利の同時上昇にどう応えるか 住宅ローン減税の軽減効果と課題（TBS CROSS DIG with Bloomberg） - Yahoo!ニュース",
-   "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5xSE5PTm9tbVV3ckdxRkkwdzJ6SUNVRW8tQ29RRDhsMzJrSFl4Z3RGc3kxUm54RTE0UjBwR180RWV1ai1vSldZV2J4WHNZRkxLeld0aEwzNzRJVUZzMll4eVZoZVEzWDZIeUVWc2dDcXZVWTJqaHFYQTIxVlBiTnc?oc=5",
+   "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQaHg5RWVsajlyRVY3VnM0TVhLRkRuUjRfZDYxdEJfNG9uYkdQbEx4dmZZNFY4Yjh6MG4xREhHMVpLOVNGZjFqRjJtcnNLLVV5RHNKa0ZHR3Z2R1FXd3M3QjF6c3Vtc3Y0Wkltc21rOVFQRzFEcFVzX3hycGgtTG4tMG1EajUxdmdu?oc=5",
    "source": "Yahoo!ニュース",
    "feed": "住宅ローン 金利",
    "date": "2026-11-22T01:00:34.000Z",
@@ -221,6 +251,16 @@
     "금리↑",
     "대출",
     "정책"
+   ]
+  },
+  {
+   "title": "〈30代夫婦の東京脱出〉「もう都内では買えない」「2年探しても買いたい家がなかった」世帯年収1000万円超のマンション探しで突きつけられた厳しい現実…マイホームの夢を千葉・柏でかなえた理由 - au Webポータル",
+   "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1LTEZ0aVNxNDdrM180eVhFOGtINGUwQzZZajdMRWVUdUw3ZHdpZmJwSTJLcThnRmxITEVFN094cjlnZkhROHg4SkdESjA3X1VhSFJ6VUN0ckNNWkM5Vl9DdVBCazhnWjFxTDJTSFhR?oc=5",
+   "source": "au Webポータル",
+   "feed": "マンション価格",
+   "date": "2026-11-22T01:00:00.000Z",
+   "tags": [
+    "맨션"
    ]
   },
   {
@@ -331,17 +371,6 @@
    ]
   },
   {
-   "title": "長期金利の上昇が加速、「ターミナルレート」も引き上がる？ 住宅ローンや債券投資の判断のポイント 野村證券・美和卓 - 野村證券",
-   "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5CODR4SFN3VHlXeUVXOTk1ZDRCcTZJeHY1ODZOM0doa3FhRVZOazBrT1VEX2hic2tmcGx3RERpeW84bnZibzk1d3FYaG9OVFRreW5KaE1vUncxbFRPRHl3?oc=5",
-   "source": "野村證券",
-   "feed": "住宅ローン 金利",
-   "date": "2026-11-21T09:21:05.000Z",
-   "tags": [
-    "금리↑",
-    "대출"
-   ]
-  },
-  {
    "title": "金利のある時代が到来！住宅ローンの負担増を「銀行株・保険株」の配当で相殺する資産防衛術 - @DIME アットダイム",
    "link": "https://news.google.com/rss/articles/CBMiREFVX3lxTE9LQVk2a0dLNGZMRnJUdUxMbkJkNDNJMUZPR29uQ1BSM2NJd182YThsMFlUV3F0UXd6dFNLX2pnbkVvTnky?oc=5",
    "source": "@DIME アットダイム",
@@ -416,6 +445,14 @@
    ]
   },
   {
+   "title": "FX実践解説、ドル円急落「AIブーム、調整 or 終焉」（2026年11月20日） - 外為どっとコム",
+   "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE9wbzg1VmJoTk1zVVRzNHhUcGtGTkk0a25SWkFER19iXzZ0UXc3M3RwYktHUWxBS1l1cnRLV3FfRUYxYVNrVHNCYWR6QXRhUExpWHNCaWJyQWIzZi13ekxvTmJaTQ?oc=5",
+   "source": "外為どっとコム",
+   "feed": "日銀 利上げ",
+   "date": "2026-11-20T11:00:00.000Z",
+   "tags": []
+  },
+  {
    "title": "利上げで定期預金に異変 同じ1年ものでも利息に2.7倍超の差 専門家が「長期固定は慎重」な理由 - AERA DIGITAL",
    "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9GUURleFJOc1E5VFRwZHdoRlE1WER0Unl1X1d2SkEyMjFsU0p1RkFYTjgtcjBmOGFvdGVmb2JMcHlteTVHalk4Z1hVT1p4NWZLZTEtY0tLcmgwUQ?oc=5",
    "source": "AERA DIGITAL",
@@ -436,6 +473,83 @@
    ]
   },
   {
+   "title": "長期金利の上昇が加速、「ターミナルレート」も引き上がる？ 住宅ローンや債券投資の判断のポイント 野村證券・美和卓 - 野村證券",
+   "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5CODR4SFN3VHlXeUVXOTk1ZDRCcTZJeHY1ODZOM0doa3FhRVZOazBrT1VEX2hic2tmcGx3RERpeW84bnZibzk1d3FYaG9OVFRreW5KaE1vUncxbFRPRHl3?oc=5",
+   "source": "野村證券",
+   "feed": "住宅ローン 金利",
+   "date": "2026-11-20T08:00:00.000Z",
+   "tags": [
+    "금리↑",
+    "대출"
+   ]
+  },
+  {
+   "title": "日銀、基調インフレ2%到達と判断 野村證券は12月追加利上げのメインシナリオ維持 野村證券・森田京平 - 野村證券",
+   "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE9QWF9CWlVUME14Z3VLNmtJOHRoVkQ1c3RtSEtpQ3ppQzRqMDlFQUN3VFQwYmVyenZzWWxZaV9KZkVfMnRKS2tXV0FwZFdsdmVTNmVlclNhTXZMTW5XTFhr?oc=5",
+   "source": "野村證券",
+   "feed": "日銀 利上げ",
+   "date": "2026-11-20T08:00:00.000Z",
+   "tags": [
+    "금리↑",
+    "일본은행"
+   ]
+  },
+  {
+   "title": "日銀は「普通」の利上げペースへ 2027年の利上げ局面終了後、超長期金利の低下を予想 野村證券・宍戸知暁 - 野村證券",
+   "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE9MZWVXNWxHQ1VPREtUZmFGQ3Q2U0M2Wmx1QmJtTXpNaGR6OGNFanlwMVdqUDdXcHpKWVEtd3ktZ3ZBRHVCLWVldGd3WHE0QzVkN01rVENmVUpqREdGOTZZ?oc=5",
+   "source": "野村證券",
+   "feed": "日銀 利上げ",
+   "date": "2026-11-20T08:00:00.000Z",
+   "tags": [
+    "금리↑",
+    "일본은행"
+   ]
+  },
+  {
+   "title": "野村證券の日銀見通しを変更 次の利上げは10月メイン、12月リスクシナリオに 野村證券・森田京平 - 野村證券",
+   "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBSSTBPdjQ4bTFUU0ZlX1MxNy1WVXYwWnZySm9kc0tnMmFYWUpDZjV6anNvNHdZV01LVHp4QkNiT05iSHBZdDBpNVNLamNONHZodlk1d29GZ3RiV0tLbExj?oc=5",
+   "source": "野村證券",
+   "feed": "日銀 利上げ",
+   "date": "2026-11-20T08:00:00.000Z",
+   "tags": [
+    "금리↑",
+    "일본은행"
+   ]
+  },
+  {
+   "title": "日銀、予想通り利上げを決定 次の利上げは12月メイン、10月リスクシナリオに 野村證券・森田京平 - 野村證券",
+   "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE0ta3NxdUJxVDRhY2dnWHh3bExMNHg4QWhLQjZQYVVvci1vNVg4X2VCSXZpa3FLbm51eXhFOElFams0UTk0dW80VDFXaXVIRWJXZ3R5S1lkVzVSd1pOZmRJ?oc=5",
+   "source": "野村證券",
+   "feed": "日銀 利上げ",
+   "date": "2026-11-20T08:00:00.000Z",
+   "tags": [
+    "금리↑",
+    "일본은행"
+   ]
+  },
+  {
+   "title": "野村證券の日銀見通しを変更 利上げ時期を12月に前倒しもターミナルレートは据え置き 野村證券・森田京平 - 野村證券",
+   "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBjdXA3Q2FtaTBMaUNiX0tBTkRURHoyUm51VFYzUWdiZG9pY3FoYkh5c0hWMFU3anZMODhWa2dVYzh0b1dWRXBhbnZ6WURpSGVNbkRyczVyUmVwSWV0dFhv?oc=5",
+   "source": "野村證券",
+   "feed": "日銀 利上げ",
+   "date": "2026-11-20T08:00:00.000Z",
+   "tags": [
+    "금리↑",
+    "일본은행"
+   ]
+  },
+  {
+   "title": "野村證券の日銀見通しを変更 9月利上げをメインシナリオに、年内2回利上げのリスクシナリオも 野村證券・森田京平 - 野村證券",
+   "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1qcWlQazVUY21CSFBwZXVoLTc1Ylp5WXBHSW9ZdkJMemR2eU11TG9GV1RpYUFNVF9GUkV2UXhPaFVmeHlEZXhiUXo3TGVRU3VhQXR1TXVkN09FalE1R3pV?oc=5",
+   "source": "野村證券",
+   "feed": "日銀 利上げ",
+   "date": "2026-11-20T08:00:00.000Z",
+   "tags": [
+    "금리↑",
+    "일본은행"
+   ]
+  },
+  {
    "title": "協調為替介入を受け利上げペースは加速するか 高市政権から9月利上げ容認メッセージが出るかに注目 野村證券・宍戸知暁 - 野村證券",
    "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFA5dXlZVjZyWmdQUHpqNGx1TXFnUS04aG00amJvMTJLbE5QMGVGMjUwZzJKSXlDbWw3aXJNLVpBeHN2QjhJbTFXamZXbjFMYjVUOG41Q1pCVF93bWpndHVN?oc=5",
    "source": "野村證券",
@@ -443,6 +557,17 @@
    "date": "2026-11-20T08:00:00.000Z",
    "tags": [
     "금리↑"
+   ]
+  },
+  {
+   "title": "日本の10年国債金利、上昇局面終了の可能性 FRB利上げの効果確認で日銀の追随大幅利上げリスク後退 野村證券・宍戸知暁 | NOMURA ウェルスタイル – 野村の投資＆マネーライフ - 野村證券",
+   "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBMWEgxVk5faC1EYklKM1VHZVhSeFRwTUJkQjAwTm9wRzhHbHYxa3Q5Tm5WdTlJVEhJYndIT2M1TldvM0NRSVRnTzhNUFhKNk8tRWp2YlNlT3FBTUZ2UVB3?oc=5",
+   "source": "野村證券",
+   "feed": "日銀 利上げ",
+   "date": "2026-11-20T08:00:00.000Z",
+   "tags": [
+    "금리↑",
+    "일본은행"
    ]
   },
   {
@@ -535,6 +660,16 @@
    "tags": [
     "금리↑",
     "일본은행"
+   ]
+  },
+  {
+   "title": "地方の相当数の地域で新しいマンションを分譲してもらうためには、従来のマンション相場の2倍前後を払わなければならないことが分かった。 分譲価格と相場の格差が大きいため、来年も地方の売れ残り解消が容易では.. - 매일경제",
+   "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBPMnZNaHA1RTRhb19leXFuNWJHNVZBVm8welk0NVV1cGdPSFQ2Q1JYTHg5ZDlicWZxNC1jMFkxQlJCczFtd0gyeVRLTUNDTjBxQjlzME5R?oc=5",
+   "source": "매일경제",
+   "feed": "マンション価格",
+   "date": "2026-11-20T04:24:55.000Z",
+   "tags": [
+    "맨션"
    ]
   },
   {
@@ -798,6 +933,16 @@
    ]
   },
   {
+   "title": "東京23区新築マンション価格 4カ月ぶり下落 - 最新の経済ニュース【随時更新】 (ニュース) | 無料動画・見逃し配信を見るなら - ABEMA",
+   "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9mT0dBZlIzOEs0Vk5fa3lFOE96S0NVZmdLRFpwbVRRQy1CdnI1OWw5NWhxVE9DUkZ3R3pCd0MweHYxaUgwNlZNM0g3ZjhhLXkzZlhnSXhMZ3RaRlk?oc=5",
+   "source": "ABEMA",
+   "feed": "マンション価格",
+   "date": "2026-11-19T16:00:07.000Z",
+   "tags": [
+    "맨션"
+   ]
+  },
+  {
    "title": "住宅ローン契約時、約4人に1人が金利上昇を想定せず 金利上昇局面で7割超が返済に不安ー変動金利利用者の意識と備えを調査 - ニコニコニュース",
    "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1wTWJETVNNeEZRZ1pPZmZqVHhaOHJzaDZfVXdxQTF0bmNCZE8tVGhoTFhzV05odzRWWVRWTWhyTWlsZnZOSmk4ZkZfbkdRODNHQnJwak1BeFFnaHJFdEtVNVlIREJMTERL?oc=5",
    "source": "ニコニコニュース",
@@ -814,16 +959,6 @@
    "source": "テレ東BIZ",
    "feed": "マンション価格",
    "date": "2026-11-19T13:00:00.000Z",
-   "tags": [
-    "맨션"
-   ]
-  },
-  {
-   "title": "東京23区新築マンション価格 4カ月ぶり下落 - 最新の経済ニュース【随時更新】 (ニュース) | 無料動画・見逃し配信を見るなら - ABEMA",
-   "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPenNOenlLYmJlajlfX2lOaHpNQnExQi0wUXJxX1Yxa2FIbHdNTW1EUlVqMHREZWZ2SEptWGFsa2d5VEtvSmtmUWhLSGdSa0JZSUhxdDRoQVlxM25VcXE4YlNPc01nVHlNQkRLbFhZZzBsU0M0WEh2aG5qbzVYN1FDSldDU0dBdUNkTl9Rb3RKb1ZfSklua2ZlWnVFQTNxTzlyR2gyTHFFX05RNExFTEVNRXd5MnM?oc=5",
-   "source": "ABEMA",
-   "feed": "マンション価格",
-   "date": "2026-11-19T11:17:37.000Z",
    "tags": [
     "맨션"
    ]
@@ -924,7 +1059,7 @@
   },
   {
    "title": "12月のフラット35金利は据え置きか?! 住宅ローンの変動・10年固定の来月の金利はどうなるかを予測！ - Yahoo!ニュース",
-   "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNQWlzMkNCdERsWFFQSFVnektURHNzS3Nsb3dWZDJDS3M4VmlVaWh3UmdOVFdvOU1wdEc2Mk53WTV4VExZQW45QUZYNWNydGdnUmxSMUVNTElfczhURFFqYkdsY05VVWhwOU1NSUVhMlpBMndRNUtqcm55NFZsUkJCYkFUZFZuVTkz?oc=5",
+   "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTFB2QVB5eTEyV3BPNDhwdHFqUF83a0hhLWxnX2NaeWZUZHo1RTNCOE5LUFhKQTU2VVJlaVh0WVd1Q1pBbFE4SWkxV21fSThwZGhYQVlxWEZ2QjZpb1pTY2lxNmR4dVVhbjFMVnNCcVctYmQ3aHp5SmZVTG9Lb1NkY1E?oc=5",
    "source": "Yahoo!ニュース",
    "feed": "住宅ローン 金利",
    "date": "2026-11-19T08:12:16.000Z",
@@ -1056,14 +1191,6 @@
    ]
   },
   {
-   "title": "韓国5大銀行のマイナス通帳金利が1年で0.94%ポイント急騰、信用スコア950点でも無力 - BigGo ファイナンス",
-   "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE83Z3ZZS0RQaExOc3Q0WEJGME9nQnI3a3JtcVhSNXJtclZLRFhhTmZkZHNTYktsZHJFZGV1UU54U2dGWkhrVWUwMDh4NUpicmhuN0Z2aHB3YTJOUzJqY2lFRjdlRkE3UUlwSEU1UUp2aGticjky?oc=5",
-   "source": "BigGo ファイナンス",
-   "feed": "住宅ローン 金利",
-   "date": "2026-11-19T06:25:00.000Z",
-   "tags": []
-  },
-  {
    "title": "首都圏新築マンション、10月発売998戸 価格は3カ月連続下落 - BigGo ファイナンス",
    "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE5MQmxsWTZYVkF0Tm9LdXJjRUpvYk8wOXE2YTJIcVFlYk5TalVod2UydWFjaGpVeGJYMTNXT2Q3ZlJSQ0lxWTJuMkh3MDcxNEZjY2U1REdMOURaQVFZUzdJbi1YSlM1VGZEbjZTOXhXTVRLMWQx?oc=5",
    "source": "BigGo ファイナンス",
@@ -1072,6 +1199,14 @@
    "tags": [
     "맨션"
    ]
+  },
+  {
+   "title": "韓国5大銀行のマイナス通帳金利が1年で0.94%ポイント急騰、信用スコア950点でも無力 - BigGo ファイナンス",
+   "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE83Z3ZZS0RQaExOc3Q0WEJGME9nQnI3a3JtcVhSNXJtclZLRFhhTmZkZHNTYktsZHJFZGV1UU54U2dGWkhrVWUwMDh4NUpicmhuN0Z2aHB3YTJOUzJqY2lFRjdlRkE3UUlwSEU1UUp2aGticjky?oc=5",
+   "source": "BigGo ファイナンス",
+   "feed": "住宅ローン 金利",
+   "date": "2026-11-19T06:25:00.000Z",
+   "tags": []
   },
   {
    "title": "【速報】23区10月マンション価格4カ月ぶり下落 - 47NEWS",
@@ -1982,6 +2117,16 @@
    ]
   },
   {
+   "title": "｢機動的に行う新たな局面迎えている｣ 日銀の高田審議委員が講演 徳島市で経済同友会 - 徳島新聞デジタル",
+   "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFAtY01qVURzZnVzdENmSmxZdlhNam9BcTZiVDlwaHRwSHJLNm5rWVVlVHNnUExEbEppdU9Rb3h4VXBPTzh6WGF1OW1xc1k3ejVHWVhXM0R3?oc=5",
+   "source": "徳島新聞デジタル",
+   "feed": "日銀 利上げ",
+   "date": "2026-11-16T20:00:00.000Z",
+   "tags": [
+    "일본은행"
+   ]
+  },
+  {
    "title": "都心マンションバブルに異変！ 都心5区の成約価格が「1億1,500万円」で頭打ち。金利引き上げで販売が長期化、転売益の消失と実需の限界 - ゴールドオンライン",
    "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5Ca0dsbHZ6VF82SE4yZUs3eEFZRVQ0YnJwVmhLQWM3VGZiejQtdkgycmZLVDRLaFVELUxwREpsUXByVTExRXJlTWhORVlGTy0zNEE?oc=5",
    "source": "ゴールドオンライン",
@@ -1990,16 +2135,6 @@
    "tags": [
     "금리↑",
     "맨션"
-   ]
-  },
-  {
-   "title": "｢機動的に行う新たな局面迎えている｣ 日銀の高田審議委員が講演 徳島市で経済同友会 - 徳島新聞デジタル",
-   "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFAtY01qVURzZnVzdENmSmxZdlhNam9BcTZiVDlwaHRwSHJLNm5rWVVlVHNnUExEbEppdU9Rb3h4VXBPTzh6WGF1OW1xc1k3ejVHWVhXM0R3?oc=5",
-   "source": "徳島新聞デジタル",
-   "feed": "日銀 利上げ",
-   "date": "2026-11-16T20:00:00.000Z",
-   "tags": [
-    "일본은행"
    ]
   },
   {
@@ -2411,6 +2546,17 @@
    ]
   },
   {
+   "title": "中立金利へ早期利上げを、推計レンジの中央が「グッドポジション」＝高田日銀委員 (ロイター) - Yahoo!ニュース",
+   "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNNUdqQzNXZFlSMWJrQmFRTHgxRXA2SF95Q0Zobnc4VlotWU9PQng5WnlaYnNWOG0tVzBUa2UtN0tuMXhoU3VrazhyYk10TFd5S2tyYng5eE05cFVSSnpiWWd3T2xpd3pBMndVX0xfWUxoMmw3ZVBIdExuRi0yVURtVnFhNW05VS1DZUdUMXNn?oc=5",
+   "source": "Yahoo!ニュース",
+   "feed": "日銀 利上げ",
+   "date": "2026-11-16T05:15:11.000Z",
+   "tags": [
+    "금리↑",
+    "일본은행"
+   ]
+  },
+  {
    "title": "中立金利へ早期利上げを、推計レンジの中央が「グッドポジション」＝高田日銀委員(ロイター) - Yahoo!ファイナンス",
    "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxOU2p3V3VoUGVud2FZeVRkazlSSUoyam5zMTFTenRUYzB6NzdrdHdqVkVGSURBRFZXLVBCTlJLa0steXhOcVpCaUtJMXhaZVFiaHBrNXBoQ3dtNGpJa3hpTXUydC05Y0sxODE0TkJsbW1icC1XTzhXOWs1V2RrVkE5dERwTzZFMXM?oc=5",
    "source": "Yahoo!ファイナンス",
@@ -2755,6 +2901,17 @@
    ]
   },
   {
+   "title": "都心の築浅中古マンション、過去10年で売り出し最多 金利上昇や転売規制で市況に変化の兆しも - 日本経済新聞",
+   "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE8xWVI5Z3hjaXBlYVczckNwM3JzNWgxT2hlem9LT2VaMTZ2d3duRmg4OUdPcmliaTJ6TnJRQVQzdjZtTmJmVW5Tcll2bXRzcmN6R2tuNXkycjdlVmdSTUNHb3JNMzZMV0JtNjlXcg?oc=5",
+   "source": "日本経済新聞",
+   "feed": "中古マンション",
+   "date": "2026-11-14T08:00:00.000Z",
+   "tags": [
+    "금리↑",
+    "맨션"
+   ]
+  },
+  {
    "title": "新築マンションの短期転売に「空室税」検討、1年以内の未入居売却で取得税引き上げ案 - リヴプラス",
    "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE1LbHNfdU51amIxSFpxUnNya0lFcHVTQ3JVNmpqeHdJWG5xMWlpYXJDTmJKMjl2ZDdwSWg2QXNyTEJIRGJpazR4d1g4S1FmYV9qM2c?oc=5",
    "source": "リヴプラス",
@@ -2861,17 +3018,6 @@
    "feed": "日銀 利上げ",
    "date": "2026-11-13T21:01:28.000Z",
    "tags": []
-  },
-  {
-   "title": "都心の築浅中古マンション、過去10年で売り出し最多 金利上昇や転売規制で市況に変化の兆しも - 日本経済新聞",
-   "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE8xWVI5Z3hjaXBlYVczckNwM3JzNWgxT2hlem9LT2VaMTZ2d3duRmg4OUdPcmliaTJ6TnJRQVQzdjZtTmJmVW5Tcll2bXRzcmN6R2tuNXkycjdlVmdSTUNHb3JNMzZMV0JtNjlXcg?oc=5",
-   "source": "日本経済新聞",
-   "feed": "中古マンション",
-   "date": "2026-11-13T20:00:00.000Z",
-   "tags": [
-    "금리↑",
-    "맨션"
-   ]
   },
   {
    "title": "都心の築浅中古マンション、過去10年で売り出し最多 転売規制も - 日本経済新聞",
@@ -3075,16 +3221,6 @@
    ]
   },
   {
-   "title": "東京都心部の中古マンション市場で価格調整が加速―成約価格から見える実需の限界と投機相場の終焉 - PR TIMES",
-   "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE42TERVbnZsUXpna3lTaG56bUFCdUlhWkdJUlBWaGdPQkczMk5sMGJGMjRhMERwUWhkLU5STEg0NXhTTGhtYWttbjcwaGhTZVc4ZXEzRXFvS1R1WkJubjJSUVpTVkZPU3gxWHc?oc=5",
-   "source": "PR TIMES",
-   "feed": "中古マンション",
-   "date": "2026-11-13T08:00:00.000Z",
-   "tags": [
-    "맨션"
-   ]
-  },
-  {
    "title": "「日銀利上げで住宅ローンはどうなる？」2026年は2回引き上げ！変動金利の返済額がいきなり2倍にならない理由と「未払利息」の注意点（LIMO） - Yahoo!ニュース",
    "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE84eWp1ZUo1TkludWozTFE3WGhSejR0TUNTVnh6NXpSV01UeFA3Z0dVZk5OZmlMR2IyUEdZRWkySWhxSWEzR3JWN2liTFR3THdsMnVSbi1hcEl0ODJENk5DVVZScTk5TUtHU0pSWl9NM2dOa0dmUndFQU8tWUx3ZDA?oc=5",
    "source": "Yahoo!ニュース",
@@ -3094,6 +3230,16 @@
     "금리↑",
     "일본은행",
     "대출"
+   ]
+  },
+  {
+   "title": "東京都心部の中古マンション市場で価格調整が加速―成約価格から見える実需の限界と投機相場の終焉 - PR TIMES",
+   "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE42TERVbnZsUXpna3lTaG56bUFCdUlhWkdJUlBWaGdPQkczMk5sMGJGMjRhMERwUWhkLU5STEg0NXhTTGhtYWttbjcwaGhTZVc4ZXEzRXFvS1R1WkJubjJSUVpTVkZPU3gxWHc?oc=5",
+   "source": "PR TIMES",
+   "feed": "中古マンション",
+   "date": "2026-11-13T08:00:00.000Z",
+   "tags": [
+    "맨션"
    ]
   },
   {
@@ -4147,144 +4293,9 @@
     "금리↑",
     "일본은행"
    ]
-  },
-  {
-   "title": "日銀、政策金利「早く中立に」 利上げ注目点は〝春闘〟動向 10月会合意見 - ニッキンONLINE",
-   "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFAtdjRlZHczN21sWlV1SnY0M1RCbTl5ejJiMlJBRDdiUFJ0MmhlT2ZUSUlwVnFJWWt0S3Zad0NrRWlfTVlLYzF5YlFUdU53SDNPakJXaDJB?oc=5",
-   "source": "ニッキンONLINE",
-   "feed": "日銀 利上げ",
-   "date": "2026-11-10T03:25:00.000Z",
-   "tags": [
-    "금리↑",
-    "일본은행"
-   ]
-  },
-  {
-   "title": "日銀、次の利上げ「できるときに実施」 10月会合主な意見 - 日本経済新聞",
-   "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBvNUlVNTJWb0NQeF9RVmFjbkFHd2JOSGNvRFVzRXdHY3FaSmVOdV8tQzR0dHMzbWp5dVpRcXk5TW9oTTgyQmhyaDBSSi1jd3FKYWEwSGVJcmR1V0sxUlMzTERIZEtLTE5sZUJZYg?oc=5",
-   "source": "日本経済新聞",
-   "feed": "日銀 利上げ",
-   "date": "2026-11-10T02:46:16.000Z",
-   "tags": [
-    "금리↑",
-    "일본은행"
-   ]
-  },
-  {
-   "title": "日銀１０月会合、利上げ「早く」の声相次ぐ 基調物価、２％定着が重要 - 時事ドットコム",
-   "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1hbG9SanJRd3J4cTV1elR4Smp5Yk9rTnFBZFhBR2x4d0tRdFEtaU5SQXJIbmExOTdOcGsxLWE1bzMyN0JpaEJhb0JucERYdUxWN1Z2LVRmbjFfSmUxTFdTZ1hxVQ?oc=5",
-   "source": "時事ドットコム",
-   "feed": "日銀 利上げ",
-   "date": "2026-11-10T02:00:00.000Z",
-   "tags": [
-    "금리↑",
-    "일본은행"
-   ]
-  },
-  {
-   "title": "日銀「主な意見」10月会合を読む｜12月利上げに前向きな意見と慎重論、焦点は中立金利と賃金(2026年11月10日) - OANDA証券",
-   "link": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5yOV9ZaWlLOHpqVUJ5NTl2VDZ2a3JyQmFqa29NNENKM0tEemJzUkRVTjdyTzdpVUNMZnlsLTgxcFFheVpZMVZIN3BVamN4MzA0aDJjbFRQV0JLOGhfOVM4TnlkQ1h4OGVfM2V0UXQzdXdwbTJPQUpENjhtb3FSdw?oc=5",
-   "source": "OANDA証券",
-   "feed": "日銀 利上げ",
-   "date": "2026-11-10T01:02:04.000Z",
-   "tags": [
-    "금리↑",
-    "일본은행"
-   ]
-  },
-  {
-   "title": "貸出・預金動向（10月）",
-   "link": "http://www.boj.or.jp/statistics/dl/depo/kashi/kasi2610.pdf",
-   "source": "日本銀行 新着",
-   "feed": "日本銀行 新着",
-   "date": "2026-11-09T23:50:00.000Z",
-   "tags": []
-  },
-  {
-   "title": "金融政策決定会合における主な意見（10月29、30日開催分）",
-   "link": "http://www.boj.or.jp/mopo/mpmsche_minu/opinion_2026/opi261030.pdf",
-   "source": "日本銀行 新着",
-   "feed": "日本銀行 新着",
-   "date": "2026-11-09T23:50:00.000Z",
-   "tags": []
-  },
-  {
-   "title": "住宅ローン利用者調査、依然として変動金利が6割を超える - 新建ハウジング",
-   "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE1oTHlBSmt6ZGRnRkFiYW5EdEt0dWZ3MGg3ZzFVTU15NVZsUTlBS0JDdGxkUVlGTDBBNTJGTUxLYnJabHVScGxZM1FaalE3cmlLVWc?oc=5",
-   "source": "新建ハウジング",
-   "feed": "住宅ローン 金利",
-   "date": "2026-11-09T23:00:00.000Z",
-   "tags": [
-    "대출"
-   ]
-  },
-  {
-   "title": "都心マンション市場で進む価格調整～値下げ率と在庫構造から見る麻布・赤坂・青山・六本木の変化 - 健美家",
-   "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9WYW1QYzdoREF5SXN2cm15R1ZTR3hZaTczbUFHLUhObFNxZkpySjhUYkdQOW9yMDR5bTNRVDlQSE12djZ2UjM2bUdDWnk2ZWJpRnhfUk1jcDI2OVpEd2Zqb2p3dDFfeExxZi16a05tVQ?oc=5",
-   "source": "健美家",
-   "feed": "中古マンション",
-   "date": "2026-11-09T06:12:05.000Z",
-   "tags": [
-    "맨션"
-   ]
-  },
-  {
-   "title": "コール市場残高（10月）",
-   "link": "http://www.boj.or.jp/statistics/market/short/call/call.xlsx",
-   "source": "日本銀行 新着",
-   "feed": "日本銀行 新着",
-   "date": "2026-11-09T06:00:00.000Z",
-   "tags": []
-  },
-  {
-   "title": "消費活動指数",
-   "link": "http://www.boj.or.jp/research/research_data/cai/index.htm",
-   "source": "日本銀行 新着",
-   "feed": "日本銀行 新着",
-   "date": "2026-11-09T05:00:00.000Z",
-   "tags": []
-  },
-  {
-   "title": "地価が上がるほど「相続税」が重くなる…髙橋洋一が日本の税制を「非常識」と指摘する理由（THE21オンライン） - Yahoo!ニュース",
-   "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE84LVNnUnd5T0hRZ0lMVmxSRHl3bU5Ockxnb3ExemNGdktmb0Z0QlJKVDI2M2F5UjIxTTVZWVEtalhxeHNtNnkxS2lNaXdoWTdlcWNlZ2xxSVdlYVB3dkh5dmFSWEZJUzNZTFZTeGtRRThDVlJDWXYyNENLYm1feUE?oc=5",
-   "source": "Yahoo!ニュース",
-   "feed": "地価",
-   "date": "2026-11-09T02:53:16.000Z",
-   "tags": [
-    "지가",
-    "정책"
-   ]
-  },
-  {
-   "title": "マネタリーベースと日本銀行の取引（10月）",
-   "link": "http://www.boj.or.jp/statistics/boj/other/mbt/mbt2610.pdf",
-   "source": "日本銀行 新着",
-   "feed": "日本銀行 新着",
-   "date": "2026-11-08T23:50:00.000Z",
-   "tags": [
-    "일본은행"
-   ]
-  },
-  {
-   "title": "日本銀行の対政府取引（10月）",
-   "link": "http://www.boj.or.jp/statistics/boj/other/tseifu/release/2026/seifu2610.pdf",
-   "source": "日本銀行 新着",
-   "feed": "日本銀行 新着",
-   "date": "2026-11-08T23:50:00.000Z",
-   "tags": [
-    "일본은행"
-   ]
-  },
-  {
-   "title": "オペレーション（10月）",
-   "link": "http://www.boj.or.jp/statistics/boj/fm/ope/m_release/2026/ope2610.xlsx",
-   "source": "日本銀行 新着",
-   "feed": "日本銀行 新着",
-   "date": "2026-11-08T23:50:00.000Z",
-   "tags": []
   }
  ],
- "updatedAt": "2026-11-22T06:57:38.899Z",
+ "updatedAt": "2026-11-22T19:45:54.820Z",
  "log": [
   "2026-11-16T00:20:35.759Z 수집 시작",
   "2026-11-16T00:20:37.999Z JGB 이력 실패: HTTP 404",
@@ -4315,7 +4326,8 @@
   "2026-11-21T00:00:15.438Z 수집 시작",
   "2026-11-21T07:17:34.386Z 수집 시작",
   "2026-11-21T19:22:35.413Z 수집 시작",
-  "2026-11-22T06:57:32.229Z 수집 시작"
+  "2026-11-22T06:57:32.229Z 수집 시작",
+  "2026-11-22T19:45:47.723Z 수집 시작"
  ],
  "jgbHistory": [
   {
@@ -5618,7 +5630,7 @@
    "value": 2.3,
    "snippet": "総合指数 は2025年を100として103.1 前年同月比は2.3%の上昇 (2) 生鮮食品を除く総合指数 は102.9 前年同月比は2.2％の上昇 (3) 生鮮食品及びエネルギーを除く総合指数 は103.3 前年同月比は2.2%の上昇 次回の公表日は、 公表予定 をご覧ください。 今月の結果（冊子） 2025年基準 ",
    "ok": true,
-   "at": "2026-11-22T06:57:32.231Z",
+   "at": "2026-11-22T19:45:47.725Z",
    "error": null
   },
   "cpi_core": {
@@ -5631,7 +5643,7 @@
    "value": 2.2,
    "snippet": "生鮮食品を除く総合指数 は102.9 前年同月比は2.2％の上昇 (3) 生鮮食品及びエネルギーを除く総合指数 は103.3 前年同月比は2.2%の上昇 次回の公表日は、 公表予定 をご覧ください。 今月の結果（冊子） 2025年基準 消費者物価指数 全国 2026年（令和8年）10月分（PDF：427KB） 『都市階",
    "ok": true,
-   "at": "2026-11-22T06:57:32.231Z",
+   "at": "2026-11-22T19:45:47.725Z",
    "error": null
   },
   "boj": {
@@ -5644,7 +5656,7 @@
    "value": 1.25,
    "snippet": "無担保コールレート（O/N物）：1.25％程度で推移するよう促す 金融市場調節実績（オペレーション） 〒103-0021 東京都中央区日本橋本石町2-1-1（ 所在地 ） 電話 03-3279-1111（代表） 各種窓口・手続き 損傷したお金の引換え窓口 外為法に関する手続き 国庫金・国債の窓口 組織情報 日本銀行の組",
    "ok": true,
-   "at": "2026-11-22T06:57:32.231Z",
+   "at": "2026-11-22T19:45:47.725Z",
    "error": null
   },
   "boj_next": {
@@ -5658,7 +5670,7 @@
    "text": "2026年12月17日、18日",
    "snippet": "次回金融政策決定会合（予定） 2026年12月17日、18日",
    "ok": true,
-   "at": "2026-11-22T06:57:32.231Z",
+   "at": "2026-11-22T19:45:47.725Z",
    "error": null
   }
  }
